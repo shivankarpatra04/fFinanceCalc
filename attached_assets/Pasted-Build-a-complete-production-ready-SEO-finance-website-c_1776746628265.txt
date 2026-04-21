@@ -1,0 +1,202 @@
+Build a complete production-ready SEO finance website called FinanceCalc.in using Next.js 15 + TypeScript + Tailwind CSS + App Router.
+
+GOAL:
+Create a fast, modern, mobile-first Finance Calculator Hub designed for Google ranking, AdSense approval, and monetization.
+
+BRAND:
+FinanceCalc.in
+Tagline: Smart Finance Calculators for India
+
+DESIGN STYLE:
+- Clean professional finance look
+- White background
+- Blue + green accent colors
+- Card based UI
+- Modern typography
+- Fast loading
+- Trustworthy financial portal feel
+- Fully responsive mobile + desktop
+
+CORE REQUIREMENTS:
+- Production ready code
+- Clean file structure
+- Reusable components
+- SEO optimized
+- Schema markup
+- Sitemap.xml
+- Robots.txt
+- Fast Core Web Vitals
+- Accessibility optimized
+- AdSense-ready layout
+- Easy to scale to 100+ calculators
+
+PAGES TO BUILD:
+
+1) Homepage
+URL: /
+
+Homepage sections:
+- Hero section with H1: Finance Calculator Hub India
+- Search bar for calculators
+- Category cards
+- Popular calculators
+- Latest finance guides
+- Why trust us section
+- FAQ section
+- Footer with all legal pages links
+
+2) Calculator Category Pages
+
+/loan-calculators
+/investment-calculators
+/tax-calculators
+/salary-calculators
+/property-calculators
+
+Each category page must list tools with SEO intro text.
+
+3) Individual Calculator Pages
+
+Build these calculators fully working:
+
+LOAN:
+- EMI Calculator
+- Home Loan Calculator
+- Personal Loan Calculator
+- Car Loan Calculator
+- Loan Eligibility Calculator
+
+INVESTMENT:
+- SIP Calculator
+- FD Calculator
+- RD Calculator
+- CAGR Calculator
+- Mutual Fund Returns Calculator
+
+TAX:
+- GST Calculator
+- Income Tax Calculator India
+- HRA Calculator
+- TDS Calculator
+
+SALARY:
+- In-Hand Salary Calculator
+- Salary Hike Calculator
+- PF Calculator
+
+PROPERTY:
+- Rent vs Buy Calculator
+- Stamp Duty Calculator
+- ROI Calculator
+
+Each calculator page needs:
+
+- H1 keyword title
+- Interactive calculator form
+- Real-time results
+- Formula explanation
+- Example use case
+- FAQ section
+- SEO content section (500+ words)
+- Internal links to related calculators
+- Placeholder ad blocks for AdSense
+
+4) Blog Section
+
+/blog
+
+Create 10 starter SEO articles:
+
+- How EMI is Calculated
+- SIP vs FD in India
+- Best Tax Saving Options India
+- How to Improve Credit Score
+- Home Loan Tips India
+- GST Explained Simply
+- Personal Loan Guide
+- Best SIP for Beginners
+- How to Save Salary Monthly
+- Rent vs Buy in India
+
+Each article SEO optimized.
+
+5) Legal Pages
+
+/about
+/contact
+/privacy-policy
+/terms-and-conditions
+/disclaimer
+
+VERY IMPORTANT SEO:
+
+- Dynamic metadata on every page
+- Unique title tags
+- Unique meta descriptions
+- Open Graph tags
+- Canonical URLs
+- Breadcrumb schema
+- FAQ schema
+- Calculator schema where relevant
+- XML sitemap auto generated
+- robots.txt
+- Internal linking everywhere
+- Slug URLs
+
+URL EXAMPLES:
+
+/emi-calculator
+/sip-calculator
+/gst-calculator
+/fd-calculator
+/income-tax-calculator-india
+
+ADSENSE READY:
+
+Insert clean placeholder components:
+- Top banner ad
+- Mid content ad
+- Sidebar ad desktop
+- Sticky mobile footer ad placeholder
+
+Do NOT overcrowd ads.
+
+FEATURES:
+
+- Dark mode optional
+- Save favorite calculators
+- Search autocomplete
+- Recently used calculators
+- Share buttons
+- Copy results
+- Print results
+- Download PDF for results
+
+TECH:
+
+Use:
+- Next.js 15 App Router
+- TypeScript
+- Tailwind CSS
+- Framer Motion subtle animations
+- Chart.js for graphs
+- Local JSON data if needed
+
+PERFORMANCE:
+
+- Lighthouse 90+
+- Lazy load components
+- Optimized images
+- Fast navigation
+
+ADMIN FRIENDLY:
+
+Use simple content structure so future calculators/blogs can be added easily.
+
+DELIVERABLE:
+
+Generate full working website code with proper folder structure and all pages.
+
+FINAL TOUCH:
+
+Make it look like a real company-grade finance website that users trust and Google can rank.
