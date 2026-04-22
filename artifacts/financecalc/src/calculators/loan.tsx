@@ -5,25 +5,38 @@ import { FieldNumber, ResultRow, CalcGrid, InputCard, ResultCard, emi, formatINR
 const COLORS = ["hsl(221 83% 53%)", "hsl(160 84% 39%)"];
 
 function PieView({ principal, interest }: { principal: number; interest: number }) {
-  const data = [
-    { name: "Principal", value: principal },
-    { name: "Interest", value: interest },
-  ];
   return (
-    <div className="h-56 w-full">
-      <ResponsiveContainer>
-        <PieChart>
-          <Pie data={data} dataKey="value" nameKey="name" innerRadius={50} outerRadius={80} paddingAngle={2}>
-            {data.map((_, i) => <Cell key={i} fill={COLORS[i]} />)}
-          </Pie>
-          <Tooltip formatter={(v: number) => formatINR(v)} />
-        </PieChart>
-      </ResponsiveContainer>
-      <div className="flex items-center justify-center gap-4 text-xs">
+    <div className="mt-4 flex flex-col items-center">
+      <SvgDonut a={principal} b={interest} colorA={COLORS[0]} colorB={COLORS[1]} />
+      <div className="flex items-center justify-center gap-4 text-xs mt-3">
         <div className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm" style={{background: COLORS[0]}} /> Principal</div>
         <div className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm" style={{background: COLORS[1]}} /> Interest</div>
       </div>
     </div>
+  );
+}
+
+function SvgDonut({ a, b, colorA, colorB }: { a: number; b: number; colorA: string; colorB: string }) {
+  const total = a + b;
+  if (total <= 0) return null;
+  const r = 70, ir = 45, cx = 100, cy = 100;
+  const fracA = a / total;
+  const angA = fracA * 360;
+  const arc = (start: number, end: number) => {
+    const s = (start - 90) * Math.PI / 180;
+    const e = (end - 90) * Math.PI / 180;
+    const large = end - start > 180 ? 1 : 0;
+    const x1 = cx + r * Math.cos(s), y1 = cy + r * Math.sin(s);
+    const x2 = cx + r * Math.cos(e), y2 = cy + r * Math.sin(e);
+    const x3 = cx + ir * Math.cos(e), y3 = cy + ir * Math.sin(e);
+    const x4 = cx + ir * Math.cos(s), y4 = cy + ir * Math.sin(s);
+    return `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} L ${x3} ${y3} A ${ir} ${ir} 0 ${large} 0 ${x4} ${y4} Z`;
+  };
+  return (
+    <svg viewBox="0 0 200 200" width="200" height="200">
+      <path d={arc(0, angA)} fill={colorA} />
+      <path d={arc(angA, 360)} fill={colorB} />
+    </svg>
   );
 }
 

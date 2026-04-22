@@ -26,7 +26,7 @@ export function AboutPage() {
     <StaticPage title="About FinanceCalc.in" slug="about" description="FinanceCalc.in is a free, India-first finance calculator hub built to help you make smarter money decisions.">
       <p>FinanceCalc.in was built to solve a simple problem: most "Indian" finance calculators online are either riddled with ads, ask for your phone number, use outdated tax slabs, or quietly funnel you into a loan-broker funnel. We wanted a clean, fast, accurate set of calculators that just work — for free, forever, with no sign-up.</p>
       <h2>What we cover</h2>
-      <p>Twenty-one calculators across five categories: loans (EMI, home, personal, car, eligibility), investments (SIP, FD, RD, CAGR, mutual fund), tax (income tax with new and old regime side-by-side, GST, HRA, TDS), salary (in-hand, hike, EPF), and property (rent vs buy, stamp duty, ROI). Every calculator uses the actual formula your bank or the Income Tax Department uses, kept current for FY 2024-25.</p>
+      <p>Twenty-one calculators across five categories: loans (EMI, home, personal, car, eligibility), investments (SIP, FD, RD, CAGR, mutual fund), tax (income tax with new and old regime side-by-side, GST, HRA, TDS), salary (in-hand, hike, EPF), and property (rent vs buy, stamp duty, ROI). Every calculator uses the actual formula your bank or the Income Tax Department uses, kept current for FY 2025-26.</p>
       <h2>Our principles</h2>
       <ul>
         <li><strong>Accuracy first.</strong> We cite the formula, show a worked example, and let you verify the output by hand.</li>
@@ -114,7 +114,7 @@ export function DisclaimerPage() {
       <h2>For information only</h2>
       <p>The calculators, articles, charts and content on FinanceCalc.in are provided strictly for general informational and educational purposes. They are not intended as, and shall not be considered, financial, investment, tax, accounting or legal advice.</p>
       <h2>Accuracy</h2>
-      <p>We work hard to keep all calculators current — including the FY 2024-25 income tax slabs (new and old regime), the prevailing 8.25% EPF interest rate, and state-wise stamp duty as of March 2025. However, tax rules, interest rates and statutory rates change frequently. Before acting on any number from this site, verify it with the latest notifications from the Reserve Bank of India, the Income Tax Department, your state government and your own financial institution.</p>
+      <p>We work hard to keep all calculators current — including the FY 2025-26 income tax slabs (new and old regime), the prevailing 8.25% EPF interest rate, and state-wise stamp duty as of March 2025. However, tax rules, interest rates and statutory rates change frequently. Before acting on any number from this site, verify it with the latest notifications from the Reserve Bank of India, the Income Tax Department, your state government and your own financial institution.</p>
       <h2>Professional advice</h2>
       <p>Investment, tax and borrowing decisions are personal and depend on factors unique to you. Consult a SEBI-registered investment adviser, a chartered accountant, or a qualified mortgage broker before making any major financial commitment.</p>
       <h2>No solicitation</h2>

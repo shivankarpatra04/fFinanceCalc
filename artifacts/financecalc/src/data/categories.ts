@@ -35,11 +35,11 @@ export const categories: Category[] = [
     slug: "tax-calculators",
     name: "Tax Calculators",
     shortName: "Tax",
-    description: "Income tax (new and old regime), GST, HRA and TDS calculators for FY 2024-25.",
+    description: "Income tax (new and old regime), GST, HRA and TDS calculators for FY 2025-26.",
     icon: FileText,
     color: "from-indigo-500 to-indigo-700",
     intro:
-      "Indian tax rules change almost every Budget. Our tax calculators are kept current with the latest slabs, rebates and deductions for FY 2024-25 and AY 2025-26. Compare the new tax regime against the old regime side by side, calculate GST on any invoice with the correct add-or-remove logic, find out how much HRA exemption you can legally claim under section 10(13A), and estimate monthly TDS your employer will deduct. Every calculator is built from the official rules in the Income Tax Act, including the Section 87A rebate, the 4% health and education cess and the standard deduction of ₹75,000 in the new regime.",
+      "Indian tax rules change almost every Budget. Our tax calculators are kept current with the latest slabs, rebates and deductions for FY 2025-26 and AY 2025-26. Compare the new tax regime against the old regime side by side, calculate GST on any invoice with the correct add-or-remove logic, find out how much HRA exemption you can legally claim under section 10(13A), and estimate monthly TDS your employer will deduct. Every calculator is built from the official rules in the Income Tax Act, including the Section 87A rebate, the 4% health and education cess and the standard deduction of ₹75,000 in the new regime.",
   },
   {
     slug: "salary-calculators",

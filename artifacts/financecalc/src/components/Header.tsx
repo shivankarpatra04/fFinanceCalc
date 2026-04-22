@@ -29,12 +29,26 @@ export function Header() {
         </Link>
 
         <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
-          {categories.map((c) => (
-            <Link key={c.slug} href={`/${c.slug}`} className="text-foreground/70 hover:text-primary transition-colors">
-              {c.shortName}
-            </Link>
-          ))}
-          <Link href="/blog" className="text-foreground/70 hover:text-primary transition-colors">Blog</Link>
+          {categories.map((c) => {
+            const active = location === `/${c.slug}` || location.includes(c.slug.replace("-calculators", ""));
+            return (
+              <Link
+                key={c.slug}
+                href={`/${c.slug}`}
+                className={`relative transition-colors ${active ? "text-primary font-semibold" : "text-foreground/70 hover:text-primary"}`}
+              >
+                {c.shortName}
+                {active && <span className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-primary rounded-full" />}
+              </Link>
+            );
+          })}
+          <Link
+            href="/blog"
+            className={`relative transition-colors ${location.startsWith("/blog") ? "text-primary font-semibold" : "text-foreground/70 hover:text-primary"}`}
+          >
+            Blog
+            {location.startsWith("/blog") && <span className="absolute -bottom-[22px] left-0 right-0 h-0.5 bg-primary rounded-full" />}
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">

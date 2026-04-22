@@ -1,0 +1,208 @@
+You are a senior full-stack developer. Fix ALL of the following bugs in this Indian finance calculator website. Go file by file and apply every fix listed. Do not skip any. After all fixes, confirm each one was applied.
+
+---
+
+## CRITICAL FIXES (do these first)
+
+### 1. EMI Formula — monthly rate conversion
+In the EMI calculator, ensure the interest rate is converted to a monthly rate before use in the formula.
+Correct formula:
+  const r = annualRate / 12 / 100;
+  const n = tenureInMonths;
+  if (r === 0) return principal / n;
+  const emi = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+
+### 2. SIP Formula — monthly compounding with correct FV
+Ensure SIP uses monthly compounding, not annual. Correct formula:
+  const r = annualRate / 12 / 100;
+  const n = years * 12;
+  const fv = monthlyAmount * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+The trailing * (1 + r) is mandatory — do not omit it.
+
+### 3. Division by zero crash — tenure = 0
+Add a guard before every formula that uses tenure/n as a denominator:
+  if (!n || n <= 0) { showError("Please enter a valid tenure"); return; }
+Set minimum="1" on all tenure input fields and sliders.
+
+### 4. Input validation — NaN and Infinity must never reach the UI
+After every calculation, before rendering any result:
+  if (!isFinite(result) || isNaN(result)) { showError("Invalid input values"); return; }
+Also add min="0" (or min="1" where 0 is invalid) on all number inputs.
+Block 'e', '+', '-' keys on number inputs:
+  onKeyDown={(e) => ['e','E','+','-'].includes(e.key) && e.preventDefault()}
+
+---
+
+## FORMULA FIXES
+
+### 5. Income Tax — Old Regime slabs FY2024-25
+Implement correct progressive slab logic:
+  0 – 2,50,000 = 0%
+  2,50,001 – 5,00,000 = 5%
+  5,00,001 – 10,00,000 = 20%
+  10,00,001+ = 30%
+Apply Section 87A rebate: if (taxableIncome <= 500000) tax = Math.max(0, tax - 12500);
+Taxable income must be clamped: taxableIncome = Math.max(0, grossIncome - totalDeductions);
+
+### 6. Income Tax — New Regime slabs FY2025-26 (post Budget 2024)
+Update new regime slabs to:
+  0 – 4,00,000 = 0%
+  4,00,001 – 8,00,000 = 5%
+  8,00,001 – 12,00,000 = 10%
+  12,00,001 – 16,00,000 = 15%
+  16,00,001 – 20,00,000 = 20%
+  20,00,001 – 24,00,000 = 25%
+  24,00,001+ = 30%
+Standard deduction under new regime = ₹75,000 (not ₹50,000).
+Apply 87A rebate: if (taxableIncome <= 700000) tax = Math.max(0, tax - 25000);
+
+### 7. FD Calculator — show TDS impact
+After calculating gross interest, add a TDS section:
+  const annualInterest = (principal * rate) / 100;
+  const tdsCut = annualInterest > 40000 ? interest * 0.10 : 0;
+  const netMaturity = grossMaturity - tdsCut;
+Display both gross maturity and net-of-TDS maturity. Add a label: "TDS @ 10% deducted if annual interest > ₹40,000".
+
+### 8. PPF Calculator — add disclaimer
+Add a visible note below PPF results:
+  "Note: PPF interest is calculated on the minimum balance between the 5th and last day of each month. Deposits made after the 5th may earn less interest for that month. This calculator shows an approximation."
+
+---
+
+## NUMBER FORMATTING FIXES
+
+### 9. Indian number formatting — all currency outputs
+Replace all number-to-string conversions for currency with:
+  number.toLocaleString('en-IN', { maximumFractionDigits: 0 })
+For amounts >= 1,00,000 also show a label: "₹X Lakhs" or "₹X Cr" using:
+  function formatIndian(n) {
+    if (n >= 1e7) return '₹' + (n/1e7).toFixed(2) + ' Cr';
+    if (n >= 1e5) return '₹' + (n/1e5).toFixed(2) + ' L';
+    return '₹' + n.toLocaleString('en-IN');
+  }
+
+### 10. Floating-point display — no raw decimals
+All EMI, SIP, FD values shown to users must be rounded:
+  Math.round(value) for whole rupees
+  value.toFixed(2) for paise-level precision
+Never display raw JS float results like 8364.000000001.
+
+---
+
+## UI / UX FIXES
+
+### 11. Slider and input field — bidirectional sync
+For every calculator parameter (principal, rate, tenure), use a single shared state variable.
+Both the <input type="range"> and <input type="number"> must:
+  - Read from the same state value
+  - Write to the same state setter via onChange
+  - Stay in sync at all times
+
+### 12. Real-time calculation — remove explicit Calculate button dependency
+Results must update live as the user moves sliders or types values.
+Attach onChange to every input. Recalculate on every change. The Calculate button (if kept) should be secondary/optional, not required.
+
+### 13. Active nav item highlight
+In the navigation bar, apply an active CSS class to whichever calculator page is currently open.
+The active link should have a clearly distinct style (e.g. underline, color, or background highlight).
+
+### 14. Add a donut chart to EMI and SIP results
+Use Chart.js (already likely installed) to show a donut chart beside results:
+  - EMI: two segments — "Principal" (teal) and "Total Interest" (coral/orange)
+  - SIP: two segments — "Amount Invested" and "Estimated Returns"
+Chart must be responsive: options: { responsive: true, maintainAspectRatio: false }
+Wrap canvas in: <div style="max-width: 280px; height: 220px; margin: 0 auto;">
+
+---
+
+## MOBILE FIXES
+
+### 15. Slider touch targets — minimum 44px
+Add this CSS for all range inputs:
+  input[type="range"]::-webkit-slider-thumb {
+    width: 44px;
+    height: 44px;
+    margin-top: -20px;
+    cursor: pointer;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 44px;
+    height: 44px;
+  }
+
+### 16. Prevent iOS auto-zoom on inputs
+Set font-size: 16px on all <input> and <select> elements.
+Add to global CSS: input, select, textarea { font-size: 16px !important; }
+This prevents iOS Safari from auto-zooming when a form field is focused.
+
+### 17. Responsive chart — no horizontal overflow
+For all Chart.js canvases:
+  - Set responsive: true in options
+  - Wrap in a div with: overflow: hidden; max-width: 100%; width: 100%;
+  - Remove any hardcoded width/height attributes on the <canvas> element
+
+### 18. Hamburger menu — ensure it opens and closes correctly
+Test the mobile nav toggle. Make sure:
+  - The menu opens on hamburger click
+  - The menu closes when a nav item is clicked
+  - The menu closes when clicking outside it (add a backdrop/outside-click handler)
+  - The hamburger icon visually changes to an X when menu is open
+
+---
+
+## EDGE CASE FIXES
+
+### 19. Interest rate = 0% handling
+In EMI and FD calculators:
+  if (rate === 0 || rate === null) {
+    emi = principal / tenure;  // for EMI
+    maturity = principal;      // for FD (no growth)
+  }
+Never let rate=0 reach the standard formula — it will produce Infinity.
+
+### 20. Non-numeric / out-of-range input sanitization
+For every calculator input field:
+  const val = parseFloat(inputValue);
+  if (isNaN(val) || val < 0) { showFieldError("Please enter a valid positive number"); return; }
+For inputs with a defined max (e.g. interest rate max 50%), add:
+  if (val > maxAllowed) showWarning(`Value capped at ${maxAllowed}`);
+
+### 21. Large number display overflow
+For SIP/FD results that could reach crores, ensure the result container uses:
+  word-break: break-word;
+  overflow-wrap: break-word;
+And use the formatIndian() function from fix #9 to display "₹12.4 Cr" instead of a 10-digit number.
+
+---
+
+## PAGES / SEO FIXES
+
+### 22. 404 page — catch-all route
+Add a catch-all route in React Router:
+  <Route path="*" element={<NotFoundPage />} />
+The NotFoundPage component must show:
+  - "Page not found" message
+  - A home button linking back to "/"
+  - A list of available calculators with links
+
+### 23. Unique page titles per route
+Use react-helmet (install if not present: npm install react-helmet-async) to set unique titles:
+  EMI Calculator: "Free EMI Calculator India 2025 — FinanceCalc.in"
+  SIP Calculator: "SIP Returns Calculator — FinanceCalc.in"
+  Tax Calculator: "Income Tax Calculator FY2025-26 — FinanceCalc.in"
+  FD Calculator: "Fixed Deposit Calculator — FinanceCalc.in"
+  PPF Calculator: "PPF Calculator India — FinanceCalc.in"
+
+---
+
+## VERIFICATION CHECKLIST
+After all fixes, verify these test cases pass:
+
+EMI check: ₹10,00,000 loan at 9% for 20 years → EMI should be ~₹8,997/month
+SIP check: ₹5,000/month at 12% for 15 years → corpus should be ~₹25.2 Lakhs
+Tax check (old regime): ₹8,00,000 income, standard deduction ₹50,000 → taxable = ₹7,50,000 → tax = ₹75,000
+Tax check (new regime): ₹12,00,000 income → taxable after ₹75,000 deduction = ₹11,25,000 → tax ~₹62,500
+Zero test: tenure = 0 → shows error, no crash
+Zero test: rate = 0% → EMI = principal/tenure, no Infinity
+Negative test: deductions > income → tax = ₹0, no negative tax shown
+Mobile test: open on 375px viewport, all sliders usable, no horizontal scroll

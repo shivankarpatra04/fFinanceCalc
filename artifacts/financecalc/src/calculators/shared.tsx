@@ -29,11 +29,19 @@ export function FieldNumber({
           {prefix && <span className="text-xs text-muted-foreground">{prefix}</span>}
           <Input
             type="number"
+            inputMode="decimal"
             value={Number.isFinite(value) ? value : 0}
             min={min}
             max={max}
             step={step}
-            onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
+            onKeyDown={(e) => { if (["e", "E", "+"].includes(e.key)) e.preventDefault(); }}
+            onChange={(e) => {
+              const raw = parseFloat(e.target.value);
+              let v = Number.isFinite(raw) ? raw : 0;
+              if (typeof min === "number" && v < min) v = min;
+              if (typeof max === "number" && v > max) v = max;
+              onChange(v);
+            }}
             className="w-32 h-8 text-right text-sm"
           />
           {suffix && <span className="text-xs text-muted-foreground">{suffix}</span>}

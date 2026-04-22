@@ -52,9 +52,10 @@ export function GSTCalculator() {
 }
 
 function newRegimeTax(taxable: number): number {
+  // FY 2025-26 (post Budget 2024) slabs
   let tax = 0;
   const slabs: [number, number][] = [
-    [300000, 0], [400000, 0.05], [300000, 0.10], [200000, 0.15], [300000, 0.20],
+    [400000, 0], [400000, 0.05], [400000, 0.10], [400000, 0.15], [400000, 0.20], [400000, 0.25],
   ];
   let remaining = taxable;
   for (const [limit, rate] of slabs) {
@@ -64,8 +65,9 @@ function newRegimeTax(taxable: number): number {
     remaining -= portion;
   }
   if (remaining > 0) tax += remaining * 0.30;
-  // 87A rebate
-  if (taxable <= 700000) tax = 0;
+  // 87A rebate (up to ₹25,000 for income up to ₹7L)
+  if (taxable <= 700000) tax = Math.max(0, tax - 25000);
+  if (tax < 0) tax = 0;
   return tax;
 }
 
@@ -74,7 +76,9 @@ function oldRegimeTax(taxable: number): number {
   if (taxable > 250000) tax += Math.min(taxable - 250000, 250000) * 0.05;
   if (taxable > 500000) tax += Math.min(taxable - 500000, 500000) * 0.20;
   if (taxable > 1000000) tax += (taxable - 1000000) * 0.30;
-  if (taxable <= 500000) tax = 0;
+  // Section 87A rebate (old regime): up to ₹12,500 if taxable ≤ ₹5L
+  if (taxable <= 500000) tax = Math.max(0, tax - 12500);
+  if (tax < 0) tax = 0;
   return tax;
 }
 
@@ -114,7 +118,7 @@ export function IncomeTaxCalculator() {
           <div className="text-xs text-muted-foreground">Recommended</div>
           <div className="text-base font-bold text-emerald-700 dark:text-emerald-400">{winner} Regime — saves {formatINR(savings)}</div>
         </div>
-        <h3 className="text-sm font-semibold mt-2 mb-1">New Regime (FY 2024-25)</h3>
+        <h3 className="text-sm font-semibold mt-2 mb-1">New Regime (FY 2025-26)</h3>
         <ResultRow label="Taxable Income" value={formatINR(newTaxable)} />
         <ResultRow label="Tax + 4% Cess" value={formatINR(newTotal)} />
         <h3 className="text-sm font-semibold mt-3 mb-1">Old Regime</h3>
@@ -188,7 +192,7 @@ export function TDSCalculator() {
           <Select value={regime} onValueChange={(v) => setRegime(v as any)}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="new">New (FY 2024-25)</SelectItem>
+              <SelectItem value="new">New (FY 2025-26)</SelectItem>
               <SelectItem value="old">Old</SelectItem>
             </SelectContent>
           </Select>

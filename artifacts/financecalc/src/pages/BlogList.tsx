@@ -7,7 +7,7 @@ import { Calendar, Clock } from "lucide-react";
 export function BlogListPage() {
   useSEO({
     title: "Personal Finance Blog - Indian Money Guides | FinanceCalc.in",
-    description: "Expert guides on EMI, SIP, tax saving, salary, and personal finance for Indians. Updated for FY 2024-25.",
+    description: "Expert guides on EMI, SIP, tax saving, salary, and personal finance for Indians. Updated for FY 2025-26.",
     canonical: "https://financecalc.in/blog",
     jsonLd: breadcrumbJsonLd([{ label: "Home", href: "/" }, { label: "Blog" }]),
   });

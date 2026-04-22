@@ -45,7 +45,7 @@ export const calculators: CalculatorMeta[] = [
     description: "Add or remove GST from any amount at 5%, 12%, 18% or 28% rates.",
     keywords: ["gst calculator india", "gst inclusive exclusive"] },
   { slug: "income-tax-calculator-india", name: "Income Tax Calculator India", shortName: "Income Tax", category: "tax-calculators",
-    description: "Calculate income tax under new and old regime for FY 2024-25 with side-by-side comparison.",
+    description: "Calculate income tax under new and old regime for FY 2025-26 with side-by-side comparison.",
     keywords: ["income tax calculator india", "new vs old regime", "fy 2024-25 tax"] },
   { slug: "hra-calculator", name: "HRA Calculator", shortName: "HRA", category: "tax-calculators",
     description: "Calculate maximum HRA exemption you can claim under section 10(13A).",

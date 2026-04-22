@@ -1,6 +1,39 @@
 import { useState, useMemo } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from "recharts";
 import { FieldNumber, ResultRow, CalcGrid, InputCard, ResultCard, formatINR } from "./shared";
+
+const DONUT_COLORS = ["hsl(221 83% 53%)", "hsl(160 84% 39%)"];
+
+function Donut({ a, b, labelA, labelB }: { a: number; b: number; labelA: string; labelB: string }) {
+  const total = a + b;
+  const fracA = total > 0 ? a / total : 0;
+  const angA = fracA * 360;
+  const r = 70, ir = 45, cx = 100, cy = 100;
+  const arc = (start: number, end: number) => {
+    const s = (start - 90) * Math.PI / 180;
+    const e = (end - 90) * Math.PI / 180;
+    const large = end - start > 180 ? 1 : 0;
+    const x1 = cx + r * Math.cos(s), y1 = cy + r * Math.sin(s);
+    const x2 = cx + r * Math.cos(e), y2 = cy + r * Math.sin(e);
+    const x3 = cx + ir * Math.cos(e), y3 = cy + ir * Math.sin(e);
+    const x4 = cx + ir * Math.cos(s), y4 = cy + ir * Math.sin(s);
+    return `M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} L ${x3} ${y3} A ${ir} ${ir} 0 ${large} 0 ${x4} ${y4} Z`;
+  };
+  return (
+    <div className="mt-4">
+      <div className="flex justify-center">
+        <svg viewBox="0 0 200 200" width="200" height="200">
+          {total > 0 && <path d={arc(0, angA)} fill={DONUT_COLORS[0]} />}
+          {total > 0 && <path d={arc(angA, 360)} fill={DONUT_COLORS[1]} />}
+        </svg>
+      </div>
+      <div className="flex items-center justify-center gap-4 text-xs mt-2">
+        <div className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm" style={{background: DONUT_COLORS[0]}} /> {labelA}</div>
+        <div className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm" style={{background: DONUT_COLORS[1]}} /> {labelB}</div>
+      </div>
+    </div>
+  );
+}
 
 function GrowthChart({ data }: { data: { year: number; invested: number; value: number }[] }) {
   return (
@@ -50,6 +83,7 @@ export function SIPCalculator() {
         <ResultRow label="Future Value" value={formatINR(fv)} highlight />
         <ResultRow label="Invested Amount" value={formatINR(invested)} />
         <ResultRow label="Wealth Gained" value={formatINR(gain)} />
+        <Donut a={invested} b={gain} labelA="Invested" labelB="Returns" />
         <GrowthChart data={data} />
       </ResultCard>
     </CalcGrid>
@@ -62,8 +96,12 @@ export function FDCalculator() {
   const [t, setT] = useState(5);
   const [n, setN] = useState(4); // compounding/year
 
-  const A = p * Math.pow(1 + r / 100 / n, n * t);
+  const A = r === 0 ? p : p * Math.pow(1 + r / 100 / n, n * t);
   const interest = A - p;
+  const annualInterest = interest / Math.max(t, 1);
+  const tdsApplies = annualInterest > 40000;
+  const tds = tdsApplies ? interest * 0.10 : 0;
+  const netMaturity = A - tds;
 
   return (
     <CalcGrid>
@@ -78,6 +116,12 @@ export function FDCalculator() {
         <ResultRow label="Principal" value={formatINR(p)} />
         <ResultRow label="Total Interest" value={formatINR(interest)} />
         <ResultRow label="Effective Annual Yield" value={`${(((Math.pow(1 + r/100/n, n) - 1) * 100)).toFixed(2)}%`} />
+        <div className="mt-3 rounded-lg border border-border bg-background/50 p-3 space-y-1">
+          <div className="text-xs font-semibold">After TDS</div>
+          <ResultRow label="Net Maturity (post TDS)" value={formatINR(netMaturity)} />
+          <ResultRow label={`TDS @ 10% ${tdsApplies ? "(applied)" : "(not applicable)"}`} value={formatINR(tds)} />
+          <p className="text-[11px] text-muted-foreground mt-1">TDS @ 10% applies only if annual interest exceeds ₹40,000 (₹50,000 for senior citizens). Submit Form 15G/H if your total income is below the taxable limit.</p>
+        </div>
       </ResultCard>
     </CalcGrid>
   );

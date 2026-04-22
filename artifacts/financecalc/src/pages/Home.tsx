@@ -146,7 +146,7 @@ export function HomePage() {
           <div>
             <Shield className="h-8 w-8 text-emerald-600 mb-3" />
             <h3 className="font-semibold mb-1">Built for India</h3>
-            <p className="text-sm text-muted-foreground">FY 2024-25 tax slabs, EPF rate of 8.25%, state-wise stamp duty — all current and India-specific.</p>
+            <p className="text-sm text-muted-foreground">FY 2025-26 tax slabs, EPF rate of 8.25%, state-wise stamp duty — all current and India-specific.</p>
           </div>
           <div>
             <Lock className="h-8 w-8 text-indigo-600 mb-3" />
