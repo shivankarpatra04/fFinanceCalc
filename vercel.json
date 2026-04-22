@@ -3,7 +3,7 @@
 
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm --filter @workspace/financecalc run build",
-  "outputDirectory": "dist",
+  "outputDirectory": "artifacts/financecalc/dist",
   "framework": null,
 
   "rewrites": [
