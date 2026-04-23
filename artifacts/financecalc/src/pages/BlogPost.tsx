@@ -1,5 +1,5 @@
 import { useRoute, Link } from "wouter";
-import { useSEO } from "@/hooks/use-seo";
+import { Helmet } from "react-helmet-async";
 import { blogPosts } from "@/data/blog";
 import { Breadcrumbs, breadcrumbJsonLd } from "@/components/Breadcrumbs";
 import { ShareButtons } from "@/components/ShareButtons";
@@ -26,27 +26,7 @@ export function BlogPostPage() {
   const post = blogPosts.find((p) => p.slug === slug);
   const url = `https://financecalc.in/blog/${slug}`;
 
-  useSEO(post ? {
-    title: `${post.title} | FinanceCalc.in`,
-    description: post.description,
-    canonical: url,
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@graph": [
-        breadcrumbJsonLd([{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.title }]),
-        {
-          "@type": "BlogPosting",
-          headline: post.title,
-          description: post.description,
-          datePublished: post.date,
-          dateModified: post.date,
-          author: { "@type": "Organization", name: "FinanceCalc.in" },
-          publisher: { "@type": "Organization", name: "FinanceCalc.in" },
-          mainEntityOfPage: url,
-        },
-      ],
-    },
-  } : { title: "Not Found", description: "" });
+
 
   if (!post) return <NotFound />;
 
@@ -54,6 +34,16 @@ export function BlogPostPage() {
 
   return (
     <article className="container mx-auto px-4 py-6 max-w-3xl">
+      <Helmet>
+        <title>{post.title}</title>
+        <meta name="description" content={post.description} />
+        <link rel="canonical" href={url} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.description} />
+        <meta property="og:url" content={url} />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="FinanceCalc" />
+      </Helmet>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.title }]} />
       <div className="mt-4 text-xs font-medium text-primary uppercase tracking-wide">{post.category}</div>
       <h1 className="mt-2 text-3xl md:text-4xl font-bold tracking-tight">{post.title}</h1>

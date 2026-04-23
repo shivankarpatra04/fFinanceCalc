@@ -1,5 +1,5 @@
 import { useRoute } from "wouter";
-import { useSEO } from "@/hooks/use-seo";
+import { Helmet } from "react-helmet-async";
 import { getCategory } from "@/data/categories";
 import { calculatorsByCategory } from "@/data/calculators";
 import { CalculatorCard } from "@/components/CalculatorCard";
@@ -13,32 +13,23 @@ export function CategoryPage() {
   const cat = getCategory(slug);
   const calcs = cat ? calculatorsByCategory(slug) : [];
 
-  useSEO(cat ? {
-    title: `${cat.name} - Free Online Tools | FinanceCalc.in`,
-    description: cat.description,
-    canonical: `https://financecalc.in/${slug}`,
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@graph": [
-        breadcrumbJsonLd([
-          { label: "Home", href: "/" },
-          { label: cat.name },
-        ]),
-        {
-          "@type": "CollectionPage",
-          name: cat.name,
-          description: cat.description,
-          url: `https://financecalc.in/${slug}`,
-        },
-      ],
-    },
-  } : { title: "Not Found", description: "" });
+
 
   if (!cat) return <NotFound />;
   const Icon = cat.icon;
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-6xl">
+      <Helmet>
+        <title>{cat.name} - Free Online Tools | FinanceCalc.in</title>
+        <meta name="description" content={cat.description} />
+        <link rel="canonical" href={`https://financecalc.in/${slug}`} />
+        <meta property="og:title" content={`${cat.name} - Free Online Tools | FinanceCalc.in`} />
+        <meta property="og:description" content={cat.description} />
+        <meta property="og:url" content={`https://financecalc.in/${slug}`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="FinanceCalc" />
+      </Helmet>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: cat.shortName }]} />
 
       <div className="mt-4 flex items-start gap-4">

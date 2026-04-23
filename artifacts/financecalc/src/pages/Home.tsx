@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Calculator, ArrowRight, Shield, Zap, Lock, IndianRupee } from "lucide-react";
-import { useSEO } from "@/hooks/use-seo";
+import { Helmet } from "react-helmet-async";
 import { categories } from "@/data/categories";
 import { calculators, popularSlugs, getCalculator } from "@/data/calculators";
 import { CalculatorCard } from "@/components/CalculatorCard";
@@ -19,25 +19,34 @@ export function HomePage() {
     return onStorageChange(refresh);
   }, []);
 
-  useSEO({
-    title: "FinanceCalc.in - Free Indian Finance Calculators (EMI, SIP, Tax)",
-    description: "21 free finance calculators built for India. Calculate EMI, SIP returns, income tax (new & old regime), GST, HRA, in-hand salary, stamp duty and more.",
-    canonical: "https://financecalc.in/",
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      name: "FinanceCalc.in",
-      url: "https://financecalc.in",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://financecalc.in/?q={search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
-    },
-  });
+
 
   return (
     <>
+      <Helmet>
+        <title>Free Finance Calculators for India | FinanceCalc</title>
+        <meta name="description" content="Free finance calculators for India - EMI, SIP, Tax, Salary and more" />
+        <link rel="canonical" href="https://www.financecalc.in/" />
+        <meta property="og:title" content="Free Finance Calculators for India | FinanceCalc" />
+        <meta property="og:description" content="Free finance calculators for India - EMI, SIP, Tax, Salary and more" />
+        <meta property="og:url" content="https://www.financecalc.in/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="FinanceCalc" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "FinanceCalc",
+            "url": "https://www.financecalc.in",
+            "description": "Free finance calculators for India - EMI, SIP, Tax, Salary and more",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://www.financecalc.in/?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          })}
+        </script>
+      </Helmet>
       <section className="bg-gradient-to-br from-primary/5 via-background to-emerald-500/5 border-b border-border">
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="max-w-3xl mx-auto text-center">

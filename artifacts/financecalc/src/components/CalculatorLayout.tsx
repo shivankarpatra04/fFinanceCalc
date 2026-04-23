@@ -1,7 +1,7 @@
 import { useEffect, ReactNode } from "react";
 import { Link } from "wouter";
 import { ArrowRight, Star } from "lucide-react";
-import { useSEO } from "@/hooks/use-seo";
+import { Helmet } from "react-helmet-async";
 import { getCalculator } from "@/data/calculators";
 import { getCategory } from "@/data/categories";
 import { getCalculatorContent } from "@/data/calculator-content";
@@ -56,7 +56,7 @@ export function CalculatorLayout({ slug, children }: Props) {
     ],
   } : undefined;
 
-  useSEO({ title, description, canonical, jsonLd });
+
 
   if (!meta || !content) {
     return <div className="container mx-auto px-4 py-12">Calculator not found.</div>;
@@ -64,6 +64,17 @@ export function CalculatorLayout({ slug, children }: Props) {
 
   return (
     <article className="container mx-auto px-4 py-6 max-w-6xl">
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonical} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="FinanceCalc" />
+        {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
+      </Helmet>
       <Breadcrumbs items={[
         { label: "Home", href: "/" },
         { label: cat?.shortName || "", href: cat ? `/${cat.slug}` : undefined },

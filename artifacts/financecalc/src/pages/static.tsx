@@ -1,17 +1,22 @@
-import { useSEO } from "@/hooks/use-seo";
+import { Helmet } from "react-helmet-async";
 import { Breadcrumbs, breadcrumbJsonLd } from "@/components/Breadcrumbs";
 import { Mail, Github, Twitter } from "lucide-react";
 
 function StaticPage({ title, description, slug, children }: { title: string; description: string; slug: string; children: React.ReactNode }) {
   const url = `https://financecalc.in/${slug}`;
-  useSEO({
-    title: `${title} | FinanceCalc.in`,
-    description,
-    canonical: url,
-    jsonLd: breadcrumbJsonLd([{ label: "Home", href: "/" }, { label: title }]),
-  });
+
   return (
     <div className="container mx-auto px-4 py-6 max-w-3xl">
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={url} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={url} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="FinanceCalc" />
+      </Helmet>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: title }]} />
       <h1 className="mt-4 text-3xl md:text-4xl font-bold">{title}</h1>
       <div className="mt-6 prose prose-sm md:prose-base max-w-none dark:prose-invert text-foreground/85">
@@ -23,7 +28,7 @@ function StaticPage({ title, description, slug, children }: { title: string; des
 
 export function AboutPage() {
   return (
-    <StaticPage title="About FinanceCalc.in" slug="about" description="FinanceCalc.in is a free, India-first finance calculator hub built to help you make smarter money decisions.">
+    <StaticPage title="About Us | FinanceCalc" slug="about" description="FinanceCalc.in is a free, India-first finance calculator hub built to help you make smarter money decisions.">
       <p>FinanceCalc.in was built to solve a simple problem: most "Indian" finance calculators online are either riddled with ads, ask for your phone number, use outdated tax slabs, or quietly funnel you into a loan-broker funnel. We wanted a clean, fast, accurate set of calculators that just work — for free, forever, with no sign-up.</p>
       <h2>What we cover</h2>
       <p>Twenty-one calculators across five categories: loans (EMI, home, personal, car, eligibility), investments (SIP, FD, RD, CAGR, mutual fund), tax (income tax with new and old regime side-by-side, GST, HRA, TDS), salary (in-hand, hike, EPF), and property (rent vs buy, stamp duty, ROI). Every calculator uses the actual formula your bank or the Income Tax Department uses, kept current for FY 2025-26.</p>
@@ -42,7 +47,7 @@ export function AboutPage() {
 
 export function ContactPage() {
   return (
-    <StaticPage title="Contact" slug="contact" description="Get in touch with the FinanceCalc.in team.">
+    <StaticPage title="Contact Us | FinanceCalc" slug="contact" description="Get in touch with the FinanceCalc.in team.">
       <p>Found a bug? Want a calculator we don't cover yet? Have a suggestion or correction? We would love to hear from you.</p>
       <h2>Email</h2>
       <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> <a href="mailto:hello@financecalc.in">hello@financecalc.in</a></p>
@@ -60,7 +65,7 @@ export function ContactPage() {
 
 export function PrivacyPage() {
   return (
-    <StaticPage title="Privacy Policy" slug="privacy" description="How FinanceCalc.in handles your data — short version: we don't collect any.">
+    <StaticPage title="Privacy Policy | FinanceCalc" slug="privacy-policy" description="How FinanceCalc.in handles your data — short version: we don't collect any.">
       <p><em>Last updated: 1 March 2025</em></p>
       <p>FinanceCalc.in respects your privacy. This page explains what we do — and what we don't do — with information when you use our calculators.</p>
       <h2>What we do not collect</h2>
@@ -85,7 +90,7 @@ export function PrivacyPage() {
 
 export function TermsPage() {
   return (
-    <StaticPage title="Terms of Use" slug="terms" description="The terms governing your use of FinanceCalc.in.">
+    <StaticPage title="Terms of Service | FinanceCalc" slug="terms-of-service" description="The terms governing your use of FinanceCalc.in.">
       <p><em>Last updated: 1 March 2025</em></p>
       <h2>Acceptance</h2>
       <p>By using FinanceCalc.in, you agree to these Terms of Use. If you do not agree, please do not use the site.</p>
@@ -109,7 +114,7 @@ export function TermsPage() {
 
 export function DisclaimerPage() {
   return (
-    <StaticPage title="Disclaimer" slug="disclaimer" description="Important disclaimer about FinanceCalc.in calculators and content.">
+    <StaticPage title="Disclaimer | FinanceCalc" slug="disclaimer" description="Important disclaimer about FinanceCalc.in calculators and content.">
       <p><em>Last updated: 1 March 2025</em></p>
       <h2>For information only</h2>
       <p>The calculators, articles, charts and content on FinanceCalc.in are provided strictly for general informational and educational purposes. They are not intended as, and shall not be considered, financial, investment, tax, accounting or legal advice.</p>

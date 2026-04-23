@@ -1,18 +1,23 @@
 import { Link } from "wouter";
-import { useSEO } from "@/hooks/use-seo";
+import { Helmet } from "react-helmet-async";
 import { blogPosts } from "@/data/blog";
 import { Breadcrumbs, breadcrumbJsonLd } from "@/components/Breadcrumbs";
 import { Calendar, Clock } from "lucide-react";
 
 export function BlogListPage() {
-  useSEO({
-    title: "Personal Finance Blog - Indian Money Guides | FinanceCalc.in",
-    description: "Expert guides on EMI, SIP, tax saving, salary, and personal finance for Indians. Updated for FY 2025-26.",
-    canonical: "https://financecalc.in/blog",
-    jsonLd: breadcrumbJsonLd([{ label: "Home", href: "/" }, { label: "Blog" }]),
-  });
+
   return (
     <div className="container mx-auto px-4 py-6 max-w-4xl">
+      <Helmet>
+        <title>Finance Blog - Tips & Guides | FinanceCalc</title>
+        <meta name="description" content="Expert guides on EMI, SIP, tax saving, salary, and personal finance for Indians. Updated for FY 2025-26." />
+        <link rel="canonical" href="https://www.financecalc.in/blog" />
+        <meta property="og:title" content="Finance Blog - Tips & Guides | FinanceCalc" />
+        <meta property="og:description" content="Expert guides on EMI, SIP, tax saving, salary, and personal finance for Indians. Updated for FY 2025-26." />
+        <meta property="og:url" content="https://www.financecalc.in/blog" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="FinanceCalc" />
+      </Helmet>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
       <h1 className="mt-4 text-3xl md:text-4xl font-bold">Personal Finance Blog</h1>
       <p className="mt-2 text-muted-foreground">In-depth guides written for Indian readers — taxes, loans, investing, and saving more of what you earn.</p>
