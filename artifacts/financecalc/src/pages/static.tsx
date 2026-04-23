@@ -31,7 +31,7 @@ function StaticPage({ title, description, slug, children }: { title: string; des
 
 export function AboutPage() {
   return (
-    <StaticPage title="About Us | FinanceCalc" slug="about" description="FinanceCalc.in is a free, India-first finance calculator hub built to help you make smarter money decisions.">
+    <StaticPage title="About Us | FinanceCalc - Indian Finance Calculator Tools" slug="about" description="Learn about FinanceCalc.in - India's free finance calculator platform for EMI, SIP, tax planning and more.">
       <p>FinanceCalc.in was built to solve a simple problem: most "Indian" finance calculators online are either riddled with ads, ask for your phone number, use outdated tax slabs, or quietly funnel you into a loan-broker funnel. We wanted a clean, fast, accurate set of calculators that just work — for free, forever, with no sign-up.</p>
       <h2>What we cover</h2>
       <p>Twenty-one calculators across five categories: loans (EMI, home, personal, car, eligibility), investments (SIP, FD, RD, CAGR, mutual fund), tax (income tax with new and old regime side-by-side, GST, HRA, TDS), salary (in-hand, hike, EPF), and property (rent vs buy, stamp duty, ROI). Every calculator uses the actual formula your bank or the Income Tax Department uses, kept current for FY 2025-26.</p>
@@ -50,10 +50,38 @@ export function AboutPage() {
 
 export function ContactPage() {
   return (
-    <StaticPage title="Contact Us | FinanceCalc" slug="contact" description="Get in touch with the FinanceCalc.in team.">
+    <StaticPage title="Contact Us | FinanceCalc" slug="contact" description="Get in touch with the FinanceCalc team for queries, feedback or support.">
       <p>Found a bug? Want a calculator we don't cover yet? Have a suggestion or correction? We would love to hear from you.</p>
+      
+      <div className="my-8 p-6 bg-card rounded-lg border shadow-sm">
+        <h2 className="text-2xl font-semibold mb-4 mt-0">Send us a message</h2>
+        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label htmlFor="name" className="text-sm font-medium">Name</label>
+              <input type="text" id="name" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="Your name" required />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-medium">Email</label>
+              <input type="email" id="email" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="your@email.com" required />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="subject" className="text-sm font-medium">Subject</label>
+            <input type="text" id="subject" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="What is this regarding?" required />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="message" className="text-sm font-medium">Message</label>
+            <textarea id="message" className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" placeholder="How can we help you?" required></textarea>
+          </div>
+          <button type="submit" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full md:w-auto">
+            Submit Message
+          </button>
+        </form>
+      </div>
+
       <h2>Email</h2>
-      <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> <a href="mailto:shivankarpatra09@gmail.com" className="hover:underline">shivankarpatra09@gmail.com</a></p>
+      <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> <a href="mailto:support@financecalc.in" className="hover:underline">support@financecalc.in</a></p>
       <h2>Social</h2>
       <p>Follow us for updates when tax slabs change, new calculators ship, or important RBI notifications affect EMIs.</p>
       <ul>
@@ -62,14 +90,14 @@ export function ContactPage() {
         <li className="flex items-center gap-2"><Github className="h-4 w-4 text-primary" /> <a href="https://github.com/shivankarpatra04" target="_blank" rel="noopener noreferrer" className="hover:underline">shivankarpatra04</a></li>
       </ul>
       <h2>Response time</h2>
-      <p>We aim to reply within two business days. For urgent corrections (especially around tax calculations), please mark your email as URGENT in the subject line.</p>
+      <p>We aim to reply within 24-48 hours. For urgent corrections (especially around tax calculations), please mark your email as URGENT in the subject line.</p>
     </StaticPage>
   );
 }
 
 export function PrivacyPage() {
   return (
-    <StaticPage title="Privacy Policy | FinanceCalc" slug="privacy-policy" description="How FinanceCalc.in handles your data — short version: we don't collect any.">
+    <StaticPage title="Privacy Policy | FinanceCalc" slug="privacy-policy" description="Read our privacy policy to understand how FinanceCalc collects and uses your data.">
       <p><em>Last updated: 1 March 2025</em></p>
       <p>FinanceCalc.in respects your privacy. This page explains what we do — and what we don't do — with information when you use our calculators.</p>
       <h2>What we do not collect</h2>
@@ -94,7 +122,7 @@ export function PrivacyPage() {
 
 export function TermsPage() {
   return (
-    <StaticPage title="Terms of Service | FinanceCalc" slug="terms-of-service" description="The terms governing your use of FinanceCalc.in.">
+    <StaticPage title="Terms of Service | FinanceCalc" slug="terms-of-service" description="Terms and conditions governing the use of FinanceCalc.in finance tools.">
       <p><em>Last updated: 1 March 2025</em></p>
       <h2>Acceptance</h2>
       <p>By using FinanceCalc.in, you agree to these Terms of Use. If you do not agree, please do not use the site.</p>
@@ -118,7 +146,7 @@ export function TermsPage() {
 
 export function DisclaimerPage() {
   return (
-    <StaticPage title="Disclaimer | FinanceCalc" slug="disclaimer" description="Important disclaimer about FinanceCalc.in calculators and content.">
+    <StaticPage title="Disclaimer | FinanceCalc" slug="disclaimer" description="Financial disclaimer for FinanceCalc.in - our tools are for informational purposes only.">
       <p><em>Last updated: 1 March 2025</em></p>
       <h2>For information only</h2>
       <p>The calculators, articles, charts and content on FinanceCalc.in are provided strictly for general informational and educational purposes. They are not intended as, and shall not be considered, financial, investment, tax, accounting or legal advice.</p>

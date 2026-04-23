@@ -19,6 +19,26 @@ interface Props {
   children: ReactNode;
 }
 
+function FinancialDisclaimer() {
+  return (
+    <div style={{
+      background: '#fff8e1',
+      border: '1px solid #ffe082',
+      borderRadius: '8px',
+      padding: '12px 16px',
+      marginTop: '24px',
+      fontSize: '13px',
+      color: '#5d4037'
+    }}>
+      <strong>Disclaimer:</strong> The results provided by this 
+      calculator are for informational and educational purposes only. 
+      They do not constitute financial, investment, or tax advice. 
+      Please consult a certified financial advisor before making 
+      any financial decisions.
+    </div>
+  );
+}
+
 export function CalculatorLayout({ slug, children }: Props) {
   const meta = getCalculator(slug);
   const content = getCalculatorContent(slug);
@@ -156,6 +176,8 @@ export function CalculatorLayout({ slug, children }: Props) {
           </div>
         </section>
       )}
+      
+      <FinancialDisclaimer />
     </article>
   );
 }

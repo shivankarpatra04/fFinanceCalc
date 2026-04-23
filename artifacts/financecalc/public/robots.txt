@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.financecalc.in/sitemap.xml
+Sitemap: https://financecalc.in/sitemap.xml

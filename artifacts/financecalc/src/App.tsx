@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import NotFound from "@/pages/not-found";
 import { HomePage } from "@/pages/Home";
 import { CategoryPage } from "@/pages/CategoryPage";
@@ -57,6 +58,7 @@ function App() {
             </div>
           </WouterRouter>
           <Toaster />
+          <GoogleAnalytics />
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

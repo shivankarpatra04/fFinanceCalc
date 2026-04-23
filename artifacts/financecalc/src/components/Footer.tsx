@@ -55,8 +55,8 @@ export function Footer() {
       </div>
       <div className="border-t border-border">
         <div className="container mx-auto px-4 py-4 text-xs text-muted-foreground flex flex-col sm:flex-row justify-between gap-2">
-          <div>© {new Date().getFullYear()} FinanceCalc.in — All Rights Reserved</div>
-          <div>Calculators are for informational purposes only. Consult a qualified financial advisor for personal advice.</div>
+          <div>© 2025 FinanceCalc.in. All rights reserved.</div>
+          <div>Not financial advice. For informational use only.</div>
         </div>
       </div>
     </footer>

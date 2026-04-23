@@ -9,11 +9,11 @@ export function BlogListPage() {
   return (
     <div className="container mx-auto px-4 py-6 max-w-4xl">
       <Helmet>
-        <title>Finance Blog - Tips & Guides | FinanceCalc</title>
-        <meta name="description" content="Expert guides on EMI, SIP, tax saving, salary, and personal finance for Indians. Updated for FY 2025-26." />
+        <title>Finance Blog - Tips, Guides & Calculators | FinanceCalc</title>
+        <meta name="description" content="Read expert articles on EMI, SIP, tax planning, loans and personal finance in India." />
         <link rel="canonical" href="https://financecalc.in/blog" />
-        <meta property="og:title" content="Finance Blog - Tips & Guides | FinanceCalc" />
-        <meta property="og:description" content="Expert guides on EMI, SIP, tax saving, salary, and personal finance for Indians. Updated for FY 2025-26." />
+        <meta property="og:title" content="Finance Blog - Tips, Guides & Calculators | FinanceCalc" />
+        <meta property="og:description" content="Read expert articles on EMI, SIP, tax planning, loans and personal finance in India." />
         <meta property="og:url" content="https://financecalc.in/blog" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="FinanceCalc" />
