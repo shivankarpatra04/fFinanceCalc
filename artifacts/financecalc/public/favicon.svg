@@ -1,3 +1,14 @@
 <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="180" height="180" rx="36" fill="#FF3C00"/>
+  <rect width="180" height="180" rx="40" fill="#1e40af"/>
+  <rect x="50" y="35" width="80" height="110" rx="14" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="66" y="55" width="48" height="22" rx="4" fill="white"/>
+  <rect x="66" y="92" width="10" height="10" rx="2" fill="white"/>
+  <rect x="85" y="92" width="10" height="10" rx="2" fill="white"/>
+  <rect x="104" y="92" width="10" height="10" rx="2" fill="white"/>
+  <rect x="66" y="110" width="10" height="10" rx="2" fill="white"/>
+  <rect x="85" y="110" width="10" height="10" rx="2" fill="white"/>
+  <rect x="104" y="110" width="10" height="10" rx="2" fill="white"/>
+  <rect x="66" y="128" width="10" height="10" rx="2" fill="white"/>
+  <rect x="85" y="128" width="10" height="10" rx="2" fill="white"/>
+  <rect x="104" y="128" width="10" height="10" rx="2" fill="white"/>
 </svg>
