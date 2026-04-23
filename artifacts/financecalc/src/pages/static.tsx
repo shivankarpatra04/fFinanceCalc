@@ -16,6 +16,9 @@ function StaticPage({ title, description, slug, children }: { title: string; des
         <meta property="og:url" content={url} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="FinanceCalc" />
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbJsonLd([{ label: "Home", href: "/" }, { label: title }]))}
+        </script>
       </Helmet>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: title }]} />
       <h1 className="mt-4 text-3xl md:text-4xl font-bold">{title}</h1>

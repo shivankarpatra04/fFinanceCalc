@@ -11,12 +11,15 @@ export function BlogListPage() {
       <Helmet>
         <title>Finance Blog - Tips & Guides | FinanceCalc</title>
         <meta name="description" content="Expert guides on EMI, SIP, tax saving, salary, and personal finance for Indians. Updated for FY 2025-26." />
-        <link rel="canonical" href="https://www.financecalc.in/blog" />
+        <link rel="canonical" href="https://financecalc.in/blog" />
         <meta property="og:title" content="Finance Blog - Tips & Guides | FinanceCalc" />
         <meta property="og:description" content="Expert guides on EMI, SIP, tax saving, salary, and personal finance for Indians. Updated for FY 2025-26." />
-        <meta property="og:url" content="https://www.financecalc.in/blog" />
+        <meta property="og:url" content="https://financecalc.in/blog" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="FinanceCalc" />
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbJsonLd([{ label: "Home", href: "/" }, { label: "Blog" }]))}
+        </script>
       </Helmet>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
       <h1 className="mt-4 text-3xl md:text-4xl font-bold">Personal Finance Blog</h1>

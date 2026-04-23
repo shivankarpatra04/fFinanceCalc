@@ -24,9 +24,12 @@ function Router() {
       <Route path="/blog" component={BlogListPage} />
       <Route path="/blog/:slug" component={BlogPostPage} />
       <Route path="/about" component={AboutPage} />
+      <Route path="/about-us" component={AboutPage} />
       <Route path="/contact" component={ContactPage} />
+      <Route path="/contact-us" component={ContactPage} />
       <Route path="/privacy-policy" component={PrivacyPage} />
       <Route path="/terms-of-service" component={TermsPage} />
+      <Route path="/terms" component={TermsPage} />
       <Route path="/disclaimer" component={DisclaimerPage} />
       {categories.map((c) => (
         <Route key={c.slug} path={`/${c.slug}`} component={CategoryPage} />

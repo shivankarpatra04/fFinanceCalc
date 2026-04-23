@@ -43,6 +43,9 @@ export function BlogPostPage() {
         <meta property="og:url" content={url} />
         <meta property="og:type" content="article" />
         <meta property="og:site_name" content="FinanceCalc" />
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbJsonLd([{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.title }]))}
+        </script>
       </Helmet>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.title }]} />
       <div className="mt-4 text-xs font-medium text-primary uppercase tracking-wide">{post.category}</div>
