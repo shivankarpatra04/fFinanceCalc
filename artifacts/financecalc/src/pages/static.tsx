@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Breadcrumbs, breadcrumbJsonLd } from "@/components/Breadcrumbs";
-import { Mail, Github, Twitter } from "lucide-react";
+import { Mail, Github, Instagram, Linkedin } from "lucide-react";
 
 function StaticPage({ title, description, slug, children }: { title: string; description: string; slug: string; children: React.ReactNode }) {
   const url = `https://financecalc.in/${slug}`;
@@ -53,12 +53,13 @@ export function ContactPage() {
     <StaticPage title="Contact Us | FinanceCalc" slug="contact" description="Get in touch with the FinanceCalc.in team.">
       <p>Found a bug? Want a calculator we don't cover yet? Have a suggestion or correction? We would love to hear from you.</p>
       <h2>Email</h2>
-      <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> <a href="mailto:hello@financecalc.in">hello@financecalc.in</a></p>
+      <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> <a href="mailto:shivankarpatra09@gmail.com" className="hover:underline">shivankarpatra09@gmail.com</a></p>
       <h2>Social</h2>
       <p>Follow us for updates when tax slabs change, new calculators ship, or important RBI notifications affect EMIs.</p>
       <ul>
-        <li className="flex items-center gap-2"><Twitter className="h-4 w-4 text-primary" /> @financecalcin</li>
-        <li className="flex items-center gap-2"><Github className="h-4 w-4 text-primary" /> github.com/financecalc</li>
+        <li className="flex items-center gap-2"><Instagram className="h-4 w-4 text-primary" /> <a href="https://www.instagram.com/shivankar_patra" target="_blank" rel="noopener noreferrer" className="hover:underline">@shivankar_patra</a></li>
+        <li className="flex items-center gap-2"><Linkedin className="h-4 w-4 text-primary" /> <a href="https://www.linkedin.com/in/shivankar-patra/" target="_blank" rel="noopener noreferrer" className="hover:underline">shivankar-patra</a></li>
+        <li className="flex items-center gap-2"><Github className="h-4 w-4 text-primary" /> <a href="https://github.com/shivankarpatra04" target="_blank" rel="noopener noreferrer" className="hover:underline">shivankarpatra04</a></li>
       </ul>
       <h2>Response time</h2>
       <p>We aim to reply within two business days. For urgent corrections (especially around tax calculations), please mark your email as URGENT in the subject line.</p>
@@ -86,7 +87,7 @@ export function PrivacyPage() {
       <h2>Changes</h2>
       <p>If we update this policy, we will revise the "Last updated" date above. Substantial changes will be highlighted on the homepage for two weeks.</p>
       <h2>Contact</h2>
-      <p>Questions about privacy? Write to <a href="mailto:privacy@financecalc.in">privacy@financecalc.in</a>.</p>
+      <p>Questions about privacy? Write to <a href="mailto:shivankarpatra09@gmail.com">shivankarpatra09@gmail.com</a>.</p>
     </StaticPage>
   );
 }
