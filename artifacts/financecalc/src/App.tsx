@@ -25,8 +25,8 @@ function Router() {
       <Route path="/blog/:slug" component={BlogPostPage} />
       <Route path="/about" component={AboutPage} />
       <Route path="/contact" component={ContactPage} />
-      <Route path="/privacy" component={PrivacyPage} />
-      <Route path="/terms" component={TermsPage} />
+      <Route path="/privacy-policy" component={PrivacyPage} />
+      <Route path="/terms-of-service" component={TermsPage} />
       <Route path="/disclaimer" component={DisclaimerPage} />
       {categories.map((c) => (
         <Route key={c.slug} path={`/${c.slug}`} component={CategoryPage} />
@@ -44,7 +44,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
         <TooltipProvider>
-          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+          <WouterRouter>
             <div className="min-h-screen flex flex-col bg-background text-foreground">
               <Header />
               <main className="flex-1">

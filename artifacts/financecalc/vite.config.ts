@@ -17,7 +17,7 @@ if (rawPort && (Number.isNaN(port) || port <= 0)) {
 const basePath = process.env.BASE_PATH ?? "/";
 
 export default defineConfig({
-  base: basePath,
+  base: "/",
   plugins: [
     react(),
     tailwindcss(),
