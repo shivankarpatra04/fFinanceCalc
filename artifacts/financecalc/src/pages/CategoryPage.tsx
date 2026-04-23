@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { getCategory } from "@/data/categories";
 import { calculatorsByCategory } from "@/data/calculators";
 import { CalculatorCard } from "@/components/CalculatorCard";
-import { Breadcrumbs, breadcrumbJsonLd } from "@/components/Breadcrumbs";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { AdSlot } from "@/components/AdSlot";
 import NotFound from "./not-found";
 
