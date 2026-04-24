@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://indiancalc.com/sitemap.xml
+Sitemap: https://www.indiancalc.com/sitemap.xml

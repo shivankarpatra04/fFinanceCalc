@@ -3,7 +3,7 @@ import { Breadcrumbs, breadcrumbJsonLd } from "@/components/Breadcrumbs";
 import { Mail, Github, Instagram, Linkedin } from "lucide-react";
 
 function StaticPage({ title, description, slug, children }: { title: string; description: string; slug: string; children: React.ReactNode }) {
-  const url = `https://indiancalc.com/${slug}`;
+  const url = `https://www.indiancalc.com/${slug}`;
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-3xl">
@@ -61,7 +61,7 @@ export function ContactPage() {
           method="POST"
         >
           {/* FormSubmit Configuration */}
-          <input type="hidden" name="_next" value="https://indiancalc.com/contact" />
+          <input type="hidden" name="_next" value="https://www.indiancalc.com/contact" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
           

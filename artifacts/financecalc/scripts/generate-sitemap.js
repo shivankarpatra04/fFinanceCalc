@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const SITE_URL = "https://indiancalc.com";
+const SITE_URL = "https://www.indiancalc.com";
 
 const pages = [
   { url: '/', priority: '1.0', changefreq: 'daily' },
@@ -11,23 +11,26 @@ const pages = [
   { url: '/privacy-policy', priority: '0.5', changefreq: 'yearly' },
   { url: '/terms-of-service', priority: '0.5', changefreq: 'yearly' },
   { url: '/disclaimer', priority: '0.5', changefreq: 'yearly' },
-  { url: '/emi', priority: '0.9', changefreq: 'monthly' },
-  { url: '/sip', priority: '0.9', changefreq: 'monthly' },
-  { url: '/income-tax', priority: '0.9', changefreq: 'monthly' },
-  { url: '/home-loan', priority: '0.8', changefreq: 'monthly' },
-  { url: '/personal-loan', priority: '0.8', changefreq: 'monthly' },
-  { url: '/car-loan', priority: '0.8', changefreq: 'monthly' },
-  { url: '/fd', priority: '0.8', changefreq: 'monthly' },
-  { url: '/rd', priority: '0.8', changefreq: 'monthly' },
-  { url: '/cagr', priority: '0.8', changefreq: 'monthly' },
-  { url: '/mutual-fund', priority: '0.8', changefreq: 'monthly' },
-  { url: '/gst', priority: '0.8', changefreq: 'monthly' },
-  { url: '/hra', priority: '0.8', changefreq: 'monthly' },
-  { url: '/tds', priority: '0.8', changefreq: 'monthly' },
-  { url: '/salary', priority: '0.8', changefreq: 'monthly' },
-  { url: '/epf', priority: '0.8', changefreq: 'monthly' },
-  { url: '/rent-vs-buy', priority: '0.8', changefreq: 'monthly' },
-  { url: '/stamp-duty', priority: '0.8', changefreq: 'monthly' },
+  { url: '/emi-calculator', priority: '0.9', changefreq: 'monthly' },
+  { url: '/home-loan-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/personal-loan-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/car-loan-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/loan-eligibility-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/sip-calculator', priority: '0.9', changefreq: 'monthly' },
+  { url: '/fd-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/rd-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/cagr-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/mutual-fund-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/gst-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/income-tax-calculator-india', priority: '0.9', changefreq: 'monthly' },
+  { url: '/hra-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/tds-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/in-hand-salary-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/salary-hike-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/pf-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/rent-vs-buy-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/stamp-duty-calculator', priority: '0.8', changefreq: 'monthly' },
+  { url: '/roi-calculator', priority: '0.8', changefreq: 'monthly' },
 ];
 
 function generateSiteMap(pages) {

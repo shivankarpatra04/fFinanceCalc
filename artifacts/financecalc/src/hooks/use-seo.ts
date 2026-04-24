@@ -14,7 +14,7 @@ export function useSEO({
   description,
   canonical,
   jsonLd,
-  ogImage = 'https://indiancalc.com/og-image.png',
+  ogImage = 'https://www.indiancalc.com/og-image.png',
   ogType = 'website',
 }: SEOProps) {
   useEffect(() => {

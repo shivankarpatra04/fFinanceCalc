@@ -51,7 +51,7 @@ export function CalculatorLayout({ slug, children }: Props) {
     return onStorageChange(() => setFav(isFavorite(slug)));
   }, [slug]);
 
-  const canonical = `https://indiancalc.com/${slug}`;
+  const canonical = `https://www.indiancalc.com/${slug}`;
   const title = meta ? `${meta.name} - IndianCalc.com` : "Calculator";
   const description = meta?.description || "";
 

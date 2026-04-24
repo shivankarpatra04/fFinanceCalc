@@ -24,7 +24,7 @@ export function BlogPostPage() {
   const [, params] = useRoute("/blog/:slug");
   const slug = params?.slug || "";
   const post = blogPosts.find((p) => p.slug === slug);
-  const url = `https://indiancalc.com/blog/${slug}`;
+  const url = `https://www.indiancalc.com/blog/${slug}`;
 
 
 
