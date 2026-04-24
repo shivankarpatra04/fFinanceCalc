@@ -24,7 +24,7 @@ export function BlogPostPage() {
   const [, params] = useRoute("/blog/:slug");
   const slug = params?.slug || "";
   const post = blogPosts.find((p) => p.slug === slug);
-  const url = `https://financecalc.in/blog/${slug}`;
+  const url = `https://indiancalc.com/blog/${slug}`;
 
 
 
@@ -42,7 +42,7 @@ export function BlogPostPage() {
         <meta property="og:description" content={post.description} />
         <meta property="og:url" content={url} />
         <meta property="og:type" content="article" />
-        <meta property="og:site_name" content="FinanceCalc" />
+        <meta property="og:site_name" content="IndianCalc" />
         <script type="application/ld+json">
           {JSON.stringify(breadcrumbJsonLd([{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.title }]))}
         </script>

@@ -9,14 +9,14 @@ export function BlogListPage() {
   return (
     <div className="container mx-auto px-4 py-6 max-w-4xl">
       <Helmet>
-        <title>Finance Blog - Tips, Guides & Calculators | FinanceCalc</title>
+        <title>Finance Blog - Tips, Guides & Calculators | IndianCalc</title>
         <meta name="description" content="Read expert articles on EMI, SIP, tax planning, loans and personal finance in India." />
-        <link rel="canonical" href="https://financecalc.in/blog" />
-        <meta property="og:title" content="Finance Blog - Tips, Guides & Calculators | FinanceCalc" />
+        <link rel="canonical" href="https://indiancalc.com/blog" />
+        <meta property="og:title" content="Finance Blog - Tips, Guides & Calculators | IndianCalc" />
         <meta property="og:description" content="Read expert articles on EMI, SIP, tax planning, loans and personal finance in India." />
-        <meta property="og:url" content="https://financecalc.in/blog" />
+        <meta property="og:url" content="https://indiancalc.com/blog" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="FinanceCalc" />
+        <meta property="og:site_name" content="IndianCalc" />
         <script type="application/ld+json">
           {JSON.stringify(breadcrumbJsonLd([{ label: "Home", href: "/" }, { label: "Blog" }]))}
         </script>

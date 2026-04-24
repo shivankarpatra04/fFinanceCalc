@@ -51,8 +51,8 @@ export function CalculatorLayout({ slug, children }: Props) {
     return onStorageChange(() => setFav(isFavorite(slug)));
   }, [slug]);
 
-  const canonical = `https://financecalc.in/${slug}`;
-  const title = meta ? `${meta.name} - FinanceCalc.in` : "Calculator";
+  const canonical = `https://indiancalc.com/${slug}`;
+  const title = meta ? `${meta.name} - IndianCalc.com` : "Calculator";
   const description = meta?.description || "";
 
   const jsonLd = meta ? {
@@ -92,7 +92,7 @@ export function CalculatorLayout({ slug, children }: Props) {
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonical} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="FinanceCalc" />
+        <meta property="og:site_name" content="IndianCalc" />
         {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
       </Helmet>
       <Breadcrumbs items={[

@@ -12,7 +12,7 @@ export function Footer() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Calculator className="h-4 w-4" />
             </div>
-            <div className="font-bold">FinanceCalc<span className="text-emerald-600">.in</span></div>
+            <div className="font-bold">IndianCalc<span className="text-emerald-600">.com</span></div>
           </Link>
           <p className="text-sm text-muted-foreground">
             Free, accurate finance calculators built for Indian users. EMI, SIP, tax, salary and more.
@@ -55,7 +55,7 @@ export function Footer() {
       </div>
       <div className="border-t border-border">
         <div className="container mx-auto px-4 py-4 text-xs text-muted-foreground flex flex-col sm:flex-row justify-between gap-2">
-          <div>© 2025 FinanceCalc.in. All rights reserved.</div>
+          <div>© 2025 IndianCalc.com. All rights reserved.</div>
           <div>Not financial advice. For informational use only.</div>
         </div>
       </div>

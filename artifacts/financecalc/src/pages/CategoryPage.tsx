@@ -21,14 +21,14 @@ export function CategoryPage() {
   return (
     <div className="container mx-auto px-4 py-6 max-w-6xl">
       <Helmet>
-        <title>{cat.name} - Free Online Tools | FinanceCalc.in</title>
+        <title>{cat.name} - Free Online Tools | IndianCalc.com</title>
         <meta name="description" content={cat.description} />
-        <link rel="canonical" href={`https://financecalc.in/${slug}`} />
-        <meta property="og:title" content={`${cat.name} - Free Online Tools | FinanceCalc.in`} />
+        <link rel="canonical" href={`https://indiancalc.com/${slug}`} />
+        <meta property="og:title" content={`${cat.name} - Free Online Tools | IndianCalc.com`} />
         <meta property="og:description" content={cat.description} />
-        <meta property="og:url" content={`https://financecalc.in/${slug}`} />
+        <meta property="og:url" content={`https://indiancalc.com/${slug}`} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="FinanceCalc" />
+        <meta property="og:site_name" content="IndianCalc" />
       </Helmet>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: cat.shortName }]} />
 

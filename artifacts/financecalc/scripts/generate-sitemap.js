@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const SITE_URL = "https://financecalc.in";
+const SITE_URL = "https://indiancalc.com";
 
 const pages = [
   { url: '/', priority: '1.0', changefreq: 'daily' },

@@ -23,7 +23,7 @@ export function Header() {
             <Calculator className="h-5 w-5" />
           </div>
           <div className="leading-tight">
-            <div className="font-bold text-base text-foreground">FinanceCalc<span className="text-emerald-600">.in</span></div>
+            <div className="font-bold text-base text-foreground">IndianCalc<span className="text-emerald-600">.com</span></div>
             <div className="text-[10px] text-muted-foreground hidden sm:block">Smart Finance Calculators for India</div>
           </div>
         </Link>

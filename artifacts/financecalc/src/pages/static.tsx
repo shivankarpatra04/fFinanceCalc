@@ -3,7 +3,7 @@ import { Breadcrumbs, breadcrumbJsonLd } from "@/components/Breadcrumbs";
 import { Mail, Github, Instagram, Linkedin } from "lucide-react";
 
 function StaticPage({ title, description, slug, children }: { title: string; description: string; slug: string; children: React.ReactNode }) {
-  const url = `https://financecalc.in/${slug}`;
+  const url = `https://indiancalc.com/${slug}`;
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-3xl">
@@ -15,7 +15,7 @@ function StaticPage({ title, description, slug, children }: { title: string; des
         <meta property="og:description" content={description} />
         <meta property="og:url" content={url} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="FinanceCalc" />
+        <meta property="og:site_name" content="IndianCalc" />
         <script type="application/ld+json">
           {JSON.stringify(breadcrumbJsonLd([{ label: "Home", href: "/" }, { label: title }]))}
         </script>
@@ -31,8 +31,8 @@ function StaticPage({ title, description, slug, children }: { title: string; des
 
 export function AboutPage() {
   return (
-    <StaticPage title="About Us | FinanceCalc - Indian Finance Calculator Tools" slug="about" description="Learn about FinanceCalc.in - India's free finance calculator platform for EMI, SIP, tax planning and more.">
-      <p>FinanceCalc.in was built to solve a simple problem: most "Indian" finance calculators online are either riddled with ads, ask for your phone number, use outdated tax slabs, or quietly funnel you into a loan-broker funnel. We wanted a clean, fast, accurate set of calculators that just work — for free, forever, with no sign-up.</p>
+    <StaticPage title="About Us | IndianCalc - Indian Finance Calculator Tools" slug="about" description="Learn about IndianCalc.com - India's free finance calculator platform for EMI, SIP, tax planning and more.">
+      <p>IndianCalc.com was built to solve a simple problem: most "Indian" finance calculators online are either riddled with ads, ask for your phone number, use outdated tax slabs, or quietly funnel you into a loan-broker funnel. We wanted a clean, fast, accurate set of calculators that just work — for free, forever, with no sign-up.</p>
       <h2>What we cover</h2>
       <p>Twenty-one calculators across five categories: loans (EMI, home, personal, car, eligibility), investments (SIP, FD, RD, CAGR, mutual fund), tax (income tax with new and old regime side-by-side, GST, HRA, TDS), salary (in-hand, hike, EPF), and property (rent vs buy, stamp duty, ROI). Every calculator uses the actual formula your bank or the Income Tax Department uses, kept current for FY 2025-26.</p>
       <h2>Our principles</h2>
@@ -50,7 +50,7 @@ export function AboutPage() {
 
 export function ContactPage() {
   return (
-    <StaticPage title="Contact Us | FinanceCalc" slug="contact" description="Get in touch with the FinanceCalc team for queries, feedback or support.">
+    <StaticPage title="Contact Us | IndianCalc" slug="contact" description="Get in touch with the IndianCalc team for queries, feedback or support.">
       <p>Found a bug? Want a calculator we don't cover yet? Have a suggestion or correction? We would love to hear from you.</p>
       
       <div className="my-8 p-6 bg-card rounded-lg border shadow-sm">
@@ -81,7 +81,7 @@ export function ContactPage() {
       </div>
 
       <h2>Email</h2>
-      <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> <a href="mailto:support@financecalc.in" className="hover:underline">support@financecalc.in</a></p>
+      <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> <a href="mailto:shivankarpatra09@gmail.com" className="hover:underline">shivankarpatra09@gmail.com</a></p>
       <h2>Social</h2>
       <p>Follow us for updates when tax slabs change, new calculators ship, or important RBI notifications affect EMIs.</p>
       <ul>
@@ -97,9 +97,9 @@ export function ContactPage() {
 
 export function PrivacyPage() {
   return (
-    <StaticPage title="Privacy Policy | FinanceCalc" slug="privacy-policy" description="Read our privacy policy to understand how FinanceCalc collects and uses your data.">
+    <StaticPage title="Privacy Policy | IndianCalc" slug="privacy-policy" description="Read our privacy policy to understand how IndianCalc collects and uses your data.">
       <p><em>Last updated: 1 March 2025</em></p>
-      <p>FinanceCalc.in respects your privacy. This page explains what we do — and what we don't do — with information when you use our calculators.</p>
+      <p>IndianCalc.com respects your privacy. This page explains what we do — and what we don't do — with information when you use our calculators.</p>
       <h2>What we do not collect</h2>
       <p>Every calculation on this site happens entirely in your browser. We never transmit, store, or log your salary, loan amount, investment amount, tax inputs, or any other number you type into a calculator. Once you close the tab, your data is gone.</p>
       <h2>Local storage</h2>
@@ -111,7 +111,7 @@ export function PrivacyPage() {
       <h2>Third-party links</h2>
       <p>Our blog and calculators sometimes link to RBI, Income Tax Department, AMFI and other authoritative sources. We are not responsible for the privacy practices of those sites.</p>
       <h2>Children</h2>
-      <p>FinanceCalc.in is intended for users above 18. We do not knowingly collect data from minors.</p>
+      <p>IndianCalc.com is intended for users above 18. We do not knowingly collect data from minors.</p>
       <h2>Changes</h2>
       <p>If we update this policy, we will revise the "Last updated" date above. Substantial changes will be highlighted on the homepage for two weeks.</p>
       <h2>Contact</h2>
@@ -122,20 +122,20 @@ export function PrivacyPage() {
 
 export function TermsPage() {
   return (
-    <StaticPage title="Terms of Service | FinanceCalc" slug="terms-of-service" description="Terms and conditions governing the use of FinanceCalc.in finance tools.">
+    <StaticPage title="Terms of Service | IndianCalc" slug="terms-of-service" description="Terms and conditions governing the use of IndianCalc.com finance tools.">
       <p><em>Last updated: 1 March 2025</em></p>
       <h2>Acceptance</h2>
-      <p>By using FinanceCalc.in, you agree to these Terms of Use. If you do not agree, please do not use the site.</p>
+      <p>By using IndianCalc.com, you agree to these Terms of Use. If you do not agree, please do not use the site.</p>
       <h2>Use of calculators</h2>
       <p>The calculators on this site are provided as informational tools only. They use widely accepted formulas and the latest published tax rates and rules, but results may differ from those produced by your bank, employer or the Income Tax Department because of rounding, surcharges, special circumstances, or rule interpretations. Always verify with a qualified professional before acting on a calculation.</p>
       <h2>No financial advice</h2>
-      <p>Nothing on FinanceCalc.in constitutes financial, investment, tax or legal advice. We are not SEBI-registered investment advisers, chartered accountants or lawyers. Use the calculators to inform your thinking, not to replace professional counsel.</p>
+      <p>Nothing on IndianCalc.com constitutes financial, investment, tax or legal advice. We are not SEBI-registered investment advisers, chartered accountants or lawyers. Use the calculators to inform your thinking, not to replace professional counsel.</p>
       <h2>Intellectual property</h2>
-      <p>All content, logos, code, calculators and articles on this site are owned by FinanceCalc.in or its licensors. You may share links freely. Republishing full articles or embedding calculators commercially requires written permission.</p>
+      <p>All content, logos, code, calculators and articles on this site are owned by IndianCalc.com or its licensors. You may share links freely. Republishing full articles or embedding calculators commercially requires written permission.</p>
       <h2>Acceptable use</h2>
-      <p>Do not attempt to scrape, reverse-engineer, abuse, or overload the service. Do not use the site to break any law or to impersonate FinanceCalc.in.</p>
+      <p>Do not attempt to scrape, reverse-engineer, abuse, or overload the service. Do not use the site to break any law or to impersonate IndianCalc.com.</p>
       <h2>Limitation of liability</h2>
-      <p>FinanceCalc.in is provided "as is" without warranty of any kind. To the maximum extent permitted by law, we shall not be liable for any direct, indirect, incidental or consequential losses arising from your use of the site or its calculators.</p>
+      <p>IndianCalc.com is provided "as is" without warranty of any kind. To the maximum extent permitted by law, we shall not be liable for any direct, indirect, incidental or consequential losses arising from your use of the site or its calculators.</p>
       <h2>Governing law</h2>
       <p>These terms are governed by the laws of India. Any dispute will be subject to the exclusive jurisdiction of the courts at Bangalore, Karnataka.</p>
       <h2>Changes</h2>
@@ -146,22 +146,22 @@ export function TermsPage() {
 
 export function DisclaimerPage() {
   return (
-    <StaticPage title="Disclaimer | FinanceCalc" slug="disclaimer" description="Financial disclaimer for FinanceCalc.in - our tools are for informational purposes only.">
+    <StaticPage title="Disclaimer | IndianCalc" slug="disclaimer" description="Financial disclaimer for IndianCalc.com - our tools are for informational purposes only.">
       <p><em>Last updated: 1 March 2025</em></p>
       <h2>For information only</h2>
-      <p>The calculators, articles, charts and content on FinanceCalc.in are provided strictly for general informational and educational purposes. They are not intended as, and shall not be considered, financial, investment, tax, accounting or legal advice.</p>
+      <p>The calculators, articles, charts and content on IndianCalc.com are provided strictly for general informational and educational purposes. They are not intended as, and shall not be considered, financial, investment, tax, accounting or legal advice.</p>
       <h2>Accuracy</h2>
       <p>We work hard to keep all calculators current — including the FY 2025-26 income tax slabs (new and old regime), the prevailing 8.25% EPF interest rate, and state-wise stamp duty as of March 2025. However, tax rules, interest rates and statutory rates change frequently. Before acting on any number from this site, verify it with the latest notifications from the Reserve Bank of India, the Income Tax Department, your state government and your own financial institution.</p>
       <h2>Professional advice</h2>
       <p>Investment, tax and borrowing decisions are personal and depend on factors unique to you. Consult a SEBI-registered investment adviser, a chartered accountant, or a qualified mortgage broker before making any major financial commitment.</p>
       <h2>No solicitation</h2>
-      <p>FinanceCalc.in does not promote any specific bank, NBFC, mutual fund house, insurance company or financial product. Display advertisements on the site are served by third parties and do not constitute endorsements.</p>
+      <p>IndianCalc.com does not promote any specific bank, NBFC, mutual fund house, insurance company or financial product. Display advertisements on the site are served by third parties and do not constitute endorsements.</p>
       <h2>Past performance</h2>
       <p>Investment calculators (SIP, mutual fund, lumpsum, CAGR) require you to enter an expected return assumption. Past returns are not indicative of future performance. Equity and debt markets can be volatile; your actual returns may be materially lower than the assumed rate.</p>
       <h2>External links</h2>
       <p>Our content may include links to RBI, IT Department, AMFI, SEBI and other external sites. We do not endorse and are not responsible for the content, accuracy or privacy practices of those sites.</p>
       <h2>No liability</h2>
-      <p>FinanceCalc.in and its operators disclaim all liability for any loss, damage or inconvenience arising directly or indirectly from reliance on the information presented on this site.</p>
+      <p>IndianCalc.com and its operators disclaim all liability for any loss, damage or inconvenience arising directly or indirectly from reliance on the information presented on this site.</p>
     </StaticPage>
   );
 }

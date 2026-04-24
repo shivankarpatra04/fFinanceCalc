@@ -24,24 +24,24 @@ export function HomePage() {
   return (
     <>
       <Helmet>
-        <title>Free Indian Finance Calculators - EMI, SIP, Tax | FinanceCalc</title>
+        <title>Free Indian Finance Calculators - EMI, SIP, Tax | IndianCalc</title>
         <meta name="description" content="Calculate EMI, SIP returns, income tax, and more with free Indian finance calculators. Accurate, fast, and mobile-friendly." />
-        <link rel="canonical" href="https://financecalc.in/" />
-        <meta property="og:title" content="Free Indian Finance Calculators - EMI, SIP, Tax | FinanceCalc" />
+        <link rel="canonical" href="https://indiancalc.com/" />
+        <meta property="og:title" content="Free Indian Finance Calculators - EMI, SIP, Tax | IndianCalc" />
         <meta property="og:description" content="Calculate EMI, SIP returns, income tax, and more with free Indian finance calculators. Accurate, fast, and mobile-friendly." />
-        <meta property="og:url" content="https://financecalc.in/" />
+        <meta property="og:url" content="https://indiancalc.com/" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="FinanceCalc" />
+        <meta property="og:site_name" content="IndianCalc" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "FinanceCalc",
-            "url": "https://financecalc.in",
+            "name": "IndianCalc",
+            "url": "https://indiancalc.com",
             "description": "Free Indian finance calculators for EMI, SIP, income tax and more",
             "potentialAction": {
               "@type": "SearchAction",
-              "target": "https://financecalc.in/?q={search_term_string}",
+              "target": "https://indiancalc.com/?q={search_term_string}",
               "query-input": "required name=search_term_string"
             }
           })}
