@@ -19,3 +19,9 @@ export default function NotFound() {
     </div>
   );
 }
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  }
+}

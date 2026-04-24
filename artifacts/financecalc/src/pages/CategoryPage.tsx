@@ -60,3 +60,9 @@ export function CategoryPage() {
     </div>
   );
 }
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  }
+}

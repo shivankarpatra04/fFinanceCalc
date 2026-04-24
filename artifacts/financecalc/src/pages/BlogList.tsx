@@ -41,3 +41,9 @@ export function BlogListPage() {
     </div>
   );
 }
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  }
+}

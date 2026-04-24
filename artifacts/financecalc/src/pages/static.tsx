@@ -29,6 +29,7 @@ function StaticPage({ title, description, slug, children }: { title: string; des
   );
 }
 
+
 export function AboutPage() {
   return (
     <StaticPage title="About Us | IndianCalc - Indian Finance Calculator Tools" slug="about" description="Learn about IndianCalc.com - India's free finance calculator platform for EMI, SIP, tax planning and more.">
@@ -173,4 +174,10 @@ export function DisclaimerPage() {
       <p>IndianCalc.com and its operators disclaim all liability for any loss, damage or inconvenience arising directly or indirectly from reliance on the information presented on this site.</p>
     </StaticPage>
   );
+}
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  }
 }

@@ -14,3 +14,9 @@ export function CalculatorPage() {
     </CalculatorLayout>
   );
 }
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  }
+}

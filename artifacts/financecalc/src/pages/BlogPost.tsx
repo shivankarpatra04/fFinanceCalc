@@ -76,3 +76,9 @@ export function BlogPostPage() {
     </article>
   );
 }
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  }
+}
