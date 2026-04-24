@@ -57,18 +57,14 @@ export function ContactPage() {
         <h2 className="text-2xl font-semibold mb-4 mt-0">Send us a message</h2>
         <form 
           className="space-y-4" 
-          onSubmit={(e) => {
-            e.preventDefault();
-            const formData = new FormData(e.currentTarget);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const subject = formData.get('subject');
-            const message = formData.get('message');
-            
-            const mailtoLink = `mailto:shivankarpatra09@gmail.com?subject=${encodeURIComponent(`Contact Form: ${subject}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
-            window.location.href = mailtoLink;
-          }}
+          action="https://formsubmit.co/shivankarpatra09@gmail.com" 
+          method="POST"
         >
+          {/* FormSubmit Configuration */}
+          <input type="hidden" name="_next" value="https://indiancalc.com/contact" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium">Name</label>
