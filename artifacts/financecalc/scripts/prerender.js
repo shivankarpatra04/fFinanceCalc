@@ -60,14 +60,14 @@ async function prerender() {
       // Get the fully rendered HTML
       const html = await page.content();
       
-      // Create directory if it doesn't exist (unless it's the root)
       if (url !== '/') {
-        const dirPath = path.join(distPath, url);
+        // Save to dist/url.html instead of dist/url/index.html
+        const filePath = path.join(distPath, `${url}.html`);
+        const dirPath = path.dirname(filePath);
         if (!fs.existsSync(dirPath)) {
           fs.mkdirSync(dirPath, { recursive: true });
         }
-        // Save to index.html inside the route directory
-        fs.writeFileSync(path.join(dirPath, 'index.html'), html);
+        fs.writeFileSync(filePath, html);
       } else {
         // Overwrite root index.html
         fs.writeFileSync(path.join(distPath, 'index.html'), html);
