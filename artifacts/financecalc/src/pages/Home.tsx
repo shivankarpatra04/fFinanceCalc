@@ -35,15 +35,33 @@ export function HomePage() {
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "IndianCalc",
-            "url": "https://www.indiancalc.com",
-            "description": "Free Indian finance calculators for EMI, SIP, income tax and more",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": "https://www.indiancalc.com/?q={search_term_string}",
-              "query-input": "required name=search_term_string"
-            }
+            "@graph": [
+              {
+                "@type": "WebSite",
+                "name": "IndianCalc",
+                "url": "https://www.indiancalc.com",
+                "description": "Free Indian finance calculators for EMI, SIP, income tax and more",
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://www.indiancalc.com/?q={search_term_string}",
+                  "query-input": "required name=search_term_string"
+                }
+              },
+              {
+                "@type": "Organization",
+                "name": "IndianCalc",
+                "url": "https://www.indiancalc.com",
+                "logo": "https://www.indiancalc.com/favicon.svg",
+                "description": "Free Indian finance calculators for EMI, SIP, income tax, GST and more",
+                "foundingDate": "2025",
+                "areaServed": "IN",
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "contactType": "customer support",
+                  "email": "support@indiancalc.com"
+                }
+              }
+            ]
           })}
         </script>
       </Helmet>

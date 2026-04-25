@@ -108,7 +108,7 @@ export function ContactPage() {
 export function PrivacyPage() {
   return (
     <StaticPage title="Privacy Policy | IndianCalc" slug="privacy-policy" description="Read our privacy policy to understand how IndianCalc collects and uses your data.">
-      <p><em>Last updated: 1 March 2025</em></p>
+      <p className="text-sm text-muted-foreground mb-6">Last updated: April 25, 2025</p>
       <p>IndianCalc.com respects your privacy. This page explains what we do — and what we don't do — with information when you use our calculators.</p>
       <h2>What we do not collect</h2>
       <p>Every calculation on this site happens entirely in your browser. We never transmit, store, or log your salary, loan amount, investment amount, tax inputs, or any other number you type into a calculator. Once you close the tab, your data is gone.</p>
@@ -133,7 +133,7 @@ export function PrivacyPage() {
 export function TermsPage() {
   return (
     <StaticPage title="Terms of Service | IndianCalc" slug="terms-of-service" description="Terms and conditions governing the use of IndianCalc.com finance tools.">
-      <p><em>Last updated: 1 March 2025</em></p>
+      <p className="text-sm text-muted-foreground mb-6">Last updated: April 25, 2025</p>
       <h2>Acceptance</h2>
       <p>By using IndianCalc.com, you agree to these Terms of Use. If you do not agree, please do not use the site.</p>
       <h2>Use of calculators</h2>
@@ -157,7 +157,7 @@ export function TermsPage() {
 export function DisclaimerPage() {
   return (
     <StaticPage title="Disclaimer | IndianCalc" slug="disclaimer" description="Financial disclaimer for IndianCalc.com - our tools are for informational purposes only.">
-      <p><em>Last updated: 1 March 2025</em></p>
+      <p className="text-sm text-muted-foreground mb-6">Last updated: April 25, 2025</p>
       <h2>For information only</h2>
       <p>The calculators, articles, charts and content on IndianCalc.com are provided strictly for general informational and educational purposes. They are not intended as, and shall not be considered, financial, investment, tax, accounting or legal advice.</p>
       <h2>Accuracy</h2>

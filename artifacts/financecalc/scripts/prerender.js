@@ -77,13 +77,12 @@ async function prerender() {
       const html = await page.content();
       
       if (url !== '/') {
-        // Save to dist/url.html instead of dist/url/index.html
-        const filePath = path.join(distPath, `${url}.html`);
-        const dirPath = path.dirname(filePath);
+        const dirPath = path.join(distPath, url);
         if (!fs.existsSync(dirPath)) {
           fs.mkdirSync(dirPath, { recursive: true });
         }
-        fs.writeFileSync(filePath, html);
+        // Save to index.html inside the route directory
+        fs.writeFileSync(path.join(dirPath, 'index.html'), html);
       } else {
         // Overwrite root index.html
         fs.writeFileSync(path.join(distPath, 'index.html'), html);
