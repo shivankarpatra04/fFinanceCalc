@@ -80,5 +80,8 @@
     "vite-plugin-prerender": "^1.0.8",
     "wouter": "^3.3.5",
     "zod": "catalog:"
+  },
+  "dependencies": {
+    "react-ga4": "^3.0.1"
   }
 }

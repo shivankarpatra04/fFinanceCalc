@@ -5,6 +5,7 @@ import { categories } from "@/data/categories";
 import { SearchBar } from "./SearchBar";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
+import { trackEvent } from "@/components/GoogleAnalytics";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -59,7 +60,11 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              onClick={() => {
+                const newTheme = theme === "dark" ? "light" : "dark";
+                setTheme(newTheme);
+                trackEvent("Settings", "Toggle Theme", newTheme);
+              }}
               aria-label="Toggle dark mode"
             >
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}

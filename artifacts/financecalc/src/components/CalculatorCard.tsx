@@ -4,6 +4,7 @@ import { CalculatorMeta } from "@/data/calculators";
 import { getCategory } from "@/data/categories";
 import { isFavorite, toggleFavorite, onStorageChange } from "@/lib/storage";
 import { useEffect, useState } from "react";
+import { trackEvent } from "@/components/GoogleAnalytics";
 
 export function CalculatorCard({ calc }: { calc: CalculatorMeta }) {
   const cat = getCategory(calc.category);
@@ -16,11 +17,21 @@ export function CalculatorCard({ calc }: { calc: CalculatorMeta }) {
   }, [calc.slug]);
 
   return (
-    <Link href={`/${calc.slug}`} className="group relative block rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/50 hover:shadow-md">
+    <Link 
+      href={`/${calc.slug}`} 
+      className="group relative block rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/50 hover:shadow-md"
+      onClick={() => trackEvent("Calculator", "View", calc.name)}
+    >
       <button
         type="button"
         aria-label={fav ? "Remove from favorites" : "Add to favorites"}
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleFavorite(calc.slug); }}
+        onClick={(e) => { 
+          e.preventDefault(); 
+          e.stopPropagation(); 
+          const newState = !fav;
+          toggleFavorite(calc.slug); 
+          trackEvent("Calculator", newState ? "Favorite" : "Unfavorite", calc.name);
+        }}
         className="absolute top-3 right-3 p-1.5 rounded-md hover:bg-secondary"
       >
         <Star className={`h-4 w-4 ${fav ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />

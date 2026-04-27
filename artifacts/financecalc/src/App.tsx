@@ -56,9 +56,9 @@ function App() {
               </main>
               <Footer />
             </div>
+            <GoogleAnalytics />
           </WouterRouter>
           <Toaster />
-          <GoogleAnalytics />
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

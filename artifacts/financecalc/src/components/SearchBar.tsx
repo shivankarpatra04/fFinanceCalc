@@ -2,6 +2,7 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { Search } from "lucide-react";
 import { Link } from "wouter";
 import { calculators } from "@/data/calculators";
+import { trackEvent } from "@/components/GoogleAnalytics";
 import { Input } from "@/components/ui/input";
 
 export function SearchBar({ compact = false }: { compact?: boolean }) {
@@ -48,7 +49,11 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
             <Link
               key={r.slug}
               href={`/${r.slug}`}
-              onClick={() => { setQ(""); setOpen(false); }}
+              onClick={() => {
+                setQ("");
+                setOpen(false);
+                trackEvent("Search", "Result Click", r.name);
+              }}
               className="block px-4 py-2 text-sm hover:bg-secondary border-b border-border last:border-b-0"
             >
               <div className="font-medium">{r.name}</div>

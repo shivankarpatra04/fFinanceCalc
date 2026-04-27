@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Breadcrumbs, breadcrumbJsonLd } from "@/components/Breadcrumbs";
 import { Mail, Github, Instagram, Linkedin } from "lucide-react";
+import { trackEvent } from "@/components/GoogleAnalytics";
 
 function StaticPage({ title, description, slug, children }: { title: string; description: string; slug: string; children: React.ReactNode }) {
   const url = `https://indiancalc.com/${slug}`;
@@ -72,6 +73,7 @@ export function ContactPage() {
           className="space-y-4" 
           action="https://formsubmit.co/shivankarpatra09@gmail.com" 
           method="POST"
+          onSubmit={() => trackEvent("Form", "Submit", "Contact Us")}
         >
           {/* FormSubmit Configuration */}
           <input type="hidden" name="_next" value="https://indiancalc.com/contact" />
