@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /assets/
 
-Sitemap: https://www.indiancalc.com/sitemap.xml
+Sitemap: https://indiancalc.com/sitemap.xml

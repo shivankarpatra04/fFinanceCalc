@@ -7,6 +7,13 @@ import { AdSlot } from "@/components/AdSlot";
 import { Calendar, Clock } from "lucide-react";
 import NotFound from "./not-found";
 
+export const metadata = {
+  alternates: {
+    canonical: 'https://indiancalc.com/blog',
+  },
+};
+
+
 function renderContent(md: string) {
   const blocks = md.split("\n\n");
   return blocks.map((b, i) => {
@@ -24,7 +31,7 @@ export function BlogPostPage() {
   const [, params] = useRoute("/blog/:slug");
   const slug = params?.slug || "";
   const post = blogPosts.find((p) => p.slug === slug);
-  const url = `https://www.indiancalc.com/blog/${slug}`;
+  const url = `https://indiancalc.com/blog/${slug}`;
 
 
 

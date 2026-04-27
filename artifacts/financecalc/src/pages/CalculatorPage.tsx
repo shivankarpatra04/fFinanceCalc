@@ -3,6 +3,13 @@ import { CalculatorLayout } from "@/components/CalculatorLayout";
 import { calculatorRegistry } from "@/calculators/registry";
 import NotFound from "./not-found";
 
+export const metadata = {
+  alternates: {
+    canonical: 'https://indiancalc.com/fd-calculator',
+  },
+};
+
+
 export function CalculatorPage() {
   const [, params] = useRoute("/:slug");
   const slug = params?.slug || "";

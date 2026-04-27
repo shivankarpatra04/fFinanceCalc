@@ -9,6 +9,13 @@ import { AdSlot } from "@/components/AdSlot";
 import { useState, useEffect } from "react";
 import { getFavorites, getRecent, onStorageChange } from "@/lib/storage";
 
+export const metadata = {
+  alternates: {
+    canonical: 'https://indiancalc.com/',
+  },
+};
+
+
 export function HomePage() {
   const [favs, setFavs] = useState<string[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
@@ -26,10 +33,10 @@ export function HomePage() {
       <Helmet>
         <title>Free Indian Finance Calculators - EMI, SIP, Tax | IndianCalc</title>
         <meta name="description" content="Calculate EMI, SIP returns, income tax, and more with free Indian finance calculators. Accurate, fast, and mobile-friendly." />
-        <link rel="canonical" href="https://www.indiancalc.com/" />
+        <link rel="canonical" href="https://indiancalc.com/" />
         <meta property="og:title" content="Free Indian Finance Calculators - EMI, SIP, Tax | IndianCalc" />
         <meta property="og:description" content="Calculate EMI, SIP returns, income tax, and more with free Indian finance calculators. Accurate, fast, and mobile-friendly." />
-        <meta property="og:url" content="https://www.indiancalc.com/" />
+        <meta property="og:url" content="https://indiancalc.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="IndianCalc" />
         <script type="application/ld+json">
@@ -39,19 +46,19 @@ export function HomePage() {
               {
                 "@type": "WebSite",
                 "name": "IndianCalc",
-                "url": "https://www.indiancalc.com",
+                "url": "https://indiancalc.com",
                 "description": "Free Indian finance calculators for EMI, SIP, income tax and more",
                 "potentialAction": {
                   "@type": "SearchAction",
-                  "target": "https://www.indiancalc.com/?q={search_term_string}",
+                  "target": "https://indiancalc.com/?q={search_term_string}",
                   "query-input": "required name=search_term_string"
                 }
               },
               {
                 "@type": "Organization",
                 "name": "IndianCalc",
-                "url": "https://www.indiancalc.com",
-                "logo": "https://www.indiancalc.com/favicon.svg",
+                "url": "https://indiancalc.com",
+                "logo": "https://indiancalc.com/favicon.svg",
                 "description": "Free Indian finance calculators for EMI, SIP, income tax, GST and more",
                 "foundingDate": "2025",
                 "areaServed": "IN",

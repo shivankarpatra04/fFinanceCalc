@@ -7,6 +7,13 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { AdSlot } from "@/components/AdSlot";
 import NotFound from "./not-found";
 
+export const metadata = {
+  alternates: {
+    canonical: 'https://indiancalc.com/loan-calculators',
+  },
+};
+
+
 export function CategoryPage() {
   const [, params] = useRoute("/:slug");
   const slug = params?.slug || "";
@@ -23,10 +30,10 @@ export function CategoryPage() {
       <Helmet>
         <title>{cat.name} - Free Online Tools | IndianCalc.com</title>
         <meta name="description" content={cat.description} />
-        <link rel="canonical" href={`https://www.indiancalc.com/${slug}`} />
+        <link rel="canonical" href={`https://indiancalc.com/${slug}`} />
         <meta property="og:title" content={`${cat.name} - Free Online Tools | IndianCalc.com`} />
         <meta property="og:description" content={cat.description} />
-        <meta property="og:url" content={`https://www.indiancalc.com/${slug}`} />
+        <meta property="og:url" content={`https://indiancalc.com/${slug}`} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="IndianCalc" />
       </Helmet>

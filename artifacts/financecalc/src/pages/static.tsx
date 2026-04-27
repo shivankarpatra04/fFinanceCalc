@@ -3,7 +3,7 @@ import { Breadcrumbs, breadcrumbJsonLd } from "@/components/Breadcrumbs";
 import { Mail, Github, Instagram, Linkedin } from "lucide-react";
 
 function StaticPage({ title, description, slug, children }: { title: string; description: string; slug: string; children: React.ReactNode }) {
-  const url = `https://www.indiancalc.com/${slug}`;
+  const url = `https://indiancalc.com/${slug}`;
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-3xl">
@@ -30,6 +30,12 @@ function StaticPage({ title, description, slug, children }: { title: string; des
 }
 
 
+export const aboutMetadata = {
+  alternates: {
+    canonical: 'https://indiancalc.com/about',
+  },
+};
+
 export function AboutPage() {
   return (
     <StaticPage title="About Us | IndianCalc - Indian Finance Calculator Tools" slug="about" description="Learn about IndianCalc.com - India's free finance calculator platform for EMI, SIP, tax planning and more.">
@@ -49,6 +55,12 @@ export function AboutPage() {
   );
 }
 
+export const contactMetadata = {
+  alternates: {
+    canonical: 'https://indiancalc.com/contact',
+  },
+};
+
 export function ContactPage() {
   return (
     <StaticPage title="Contact Us | IndianCalc" slug="contact" description="Get in touch with the IndianCalc team for queries, feedback or support.">
@@ -62,7 +74,7 @@ export function ContactPage() {
           method="POST"
         >
           {/* FormSubmit Configuration */}
-          <input type="hidden" name="_next" value="https://www.indiancalc.com/contact" />
+          <input type="hidden" name="_next" value="https://indiancalc.com/contact" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
           
@@ -105,6 +117,12 @@ export function ContactPage() {
   );
 }
 
+export const privacyMetadata = {
+  alternates: {
+    canonical: 'https://indiancalc.com/privacy-policy',
+  },
+};
+
 export function PrivacyPage() {
   return (
     <StaticPage title="Privacy Policy | IndianCalc" slug="privacy-policy" description="Read our privacy policy to understand how IndianCalc collects and uses your data.">
@@ -130,6 +148,12 @@ export function PrivacyPage() {
   );
 }
 
+export const termsMetadata = {
+  alternates: {
+    canonical: 'https://indiancalc.com/terms-of-service',
+  },
+};
+
 export function TermsPage() {
   return (
     <StaticPage title="Terms of Service | IndianCalc" slug="terms-of-service" description="Terms and conditions governing the use of IndianCalc.com finance tools.">
@@ -153,6 +177,12 @@ export function TermsPage() {
     </StaticPage>
   );
 }
+
+export const disclaimerMetadata = {
+  alternates: {
+    canonical: 'https://indiancalc.com/disclaimer',
+  },
+};
 
 export function DisclaimerPage() {
   return (
