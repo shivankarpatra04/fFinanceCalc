@@ -46,7 +46,7 @@ export const calculators: CalculatorMeta[] = [
     keywords: ["gst calculator india", "gst inclusive exclusive"] },
   { slug: "income-tax-calculator-india", name: "Income Tax Calculator India", shortName: "Income Tax", category: "tax-calculators",
     description: "Calculate income tax under new and old regime for FY 2025-26 with side-by-side comparison.",
-    keywords: ["income tax calculator india", "new vs old regime", "fy 2024-25 tax"] },
+    keywords: ["income tax calculator india", "new vs old regime", "fy 2025-26 tax"] },
   { slug: "hra-calculator", name: "HRA Calculator", shortName: "HRA", category: "tax-calculators",
     description: "Calculate maximum HRA exemption you can claim under section 10(13A).",
     keywords: ["hra calculator", "hra exemption", "section 10 13a"] },

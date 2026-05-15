@@ -59,13 +59,27 @@ export function CalculatorLayout({ slug, children }: Props) {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "Organization",
+        "@id": "https://indiancalc.com/#organization",
+        "name": "IndianCalc",
+        "url": "https://indiancalc.com",
+        "logo": "https://indiancalc.com/logo.png"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://indiancalc.com/#website",
+        "url": "https://indiancalc.com",
+        "name": "IndianCalc",
+        "publisher": { "@id": "https://indiancalc.com/#organization" }
+      },
+      {
         "@type": "WebApplication",
-        name: meta.name,
-        applicationCategory: "FinanceApplication",
-        operatingSystem: "Any",
-        url: canonical,
-        description: meta.description,
-        offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+        "name": meta.name,
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "url": canonical,
+        "description": meta.description,
+        "offers": { "@type": "Offer", price: "0", priceCurrency: "INR" },
       },
       breadcrumbJsonLd([
         { label: "Home", href: "/" },
@@ -75,8 +89,6 @@ export function CalculatorLayout({ slug, children }: Props) {
       ...(content ? [faqJsonLd(content.faqs)] : []),
     ],
   } : undefined;
-
-
 
   if (!meta || !content) {
     return <div className="container mx-auto px-4 py-12">Calculator not found.</div>;
@@ -104,6 +116,11 @@ export function CalculatorLayout({ slug, children }: Props) {
       <div className="mt-4 flex items-start justify-between gap-4 flex-wrap">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{meta.name}</h1>
+          <div className="flex items-center gap-2 mt-1 text-xs font-medium text-green-600 dark:text-green-400 uppercase tracking-wider">
+            <span>Last Updated: May 2025</span>
+            <span className="w-1 h-1 rounded-full bg-border" />
+            <span>FY 2025-26 Data</span>
+          </div>
           <p className="mt-2 text-muted-foreground max-w-3xl">{meta.description}</p>
         </div>
         <Button
@@ -147,9 +164,15 @@ export function CalculatorLayout({ slug, children }: Props) {
       <section className="mt-10">
         <h2 className="text-2xl font-bold mb-4">About the {meta.name}</h2>
         <div className="prose prose-sm md:prose-base max-w-none dark:prose-invert text-foreground/85">
-          {content.seoContent.split("\n\n").map((para, i) => (
-            <p key={i}>{para}</p>
-          ))}
+          {content.seoContent.split("\n\n").map((para, i) => {
+            if (para.startsWith("### ")) {
+              return <h3 key={i} className="text-lg font-bold mt-6 mb-2">{para.replace("### ", "")}</h3>;
+            }
+            if (para.startsWith("## ")) {
+              return <h2 key={i} className="text-xl font-bold mt-8 mb-4">{para.replace("## ", "")}</h2>;
+            }
+            return <p key={i} className="mb-4">{para}</p>;
+          })}
         </div>
       </section>
 

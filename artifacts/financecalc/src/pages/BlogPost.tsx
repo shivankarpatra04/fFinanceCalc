@@ -5,6 +5,7 @@ import { Breadcrumbs, breadcrumbJsonLd } from "@/components/Breadcrumbs";
 import { ShareButtons } from "@/components/ShareButtons";
 import { AdSlot } from "@/components/AdSlot";
 import { Calendar, Clock } from "lucide-react";
+import { AuthorCard } from "@/components/AuthorCard";
 import NotFound from "./not-found";
 
 export const metadata = {
@@ -63,9 +64,13 @@ export function BlogPostPage() {
       </div>
       <div className="mt-2"><ShareButtons title={post.title} url={url} /></div>
 
+      <AuthorCard date={post.date} />
+
       <div className="mt-6 prose prose-sm md:prose-base max-w-none dark:prose-invert text-foreground/90">
         {renderContent(post.content)}
       </div>
+
+      <AuthorCard date={post.date} />
 
       <AdSlot size="rectangle" />
 

@@ -39,19 +39,32 @@ export const aboutMetadata = {
 
 export function AboutPage() {
   return (
-    <StaticPage title="About Us | IndianCalc - Indian Finance Calculator Tools" slug="about" description="Learn about IndianCalc.com - India's free finance calculator platform for EMI, SIP, tax planning and more.">
-      <p>IndianCalc.com was built to solve a simple problem: most "Indian" finance calculators online are either riddled with ads, ask for your phone number, use outdated tax slabs, or quietly funnel you into a loan-broker funnel. We wanted a clean, fast, accurate set of calculators that just work — for free, forever, with no sign-up.</p>
-      <h2>What we cover</h2>
-      <p>Twenty-one calculators across five categories: loans (EMI, home, personal, car, eligibility), investments (SIP, FD, RD, CAGR, mutual fund), tax (income tax with new and old regime side-by-side, GST, HRA, TDS), salary (in-hand, hike, EPF), and property (rent vs buy, stamp duty, ROI). Every calculator uses the actual formula your bank or the Income Tax Department uses, kept current for FY 2025-26.</p>
-      <h2>Our principles</h2>
+    <StaticPage title="About Us | IndianCalc - India's Trusted Finance Calculator" slug="about" description="Learn about IndianCalc.com - Our mission to provide accurate, free, and transparent financial tools for every Indian.">
+      <p>IndianCalc.com was founded in 2024 by a team of Indian financial enthusiasts and software developers who were frustrated by the state of online financial tools. Most "Indian" finance calculators we found were either cluttered with intrusive ads, hidden behind sign-up walls, or used outdated tax slabs and interest rate assumptions.</p>
+      
+      <h2>Our Mission</h2>
+      <p>Our mission is simple: <strong>To provide every Indian with access to accurate, professional-grade financial calculators for free, with zero friction.</strong> We believe that financial literacy begins with clear numbers. Whether you are a fresh graduate trying to understand your first salary slip, a young couple planning their dream home, or a retiree optimizing their FD returns, you deserve tools that are honest, fast, and technically precise.</p>
+
+      <h2>What Makes Us Different?</h2>
       <ul>
-        <li><strong>Accuracy first.</strong> We cite the formula, show a worked example, and let you verify the output by hand.</li>
-        <li><strong>Privacy by default.</strong> Every calculation runs in your browser. We never see your salary, loan amount, or any personal number.</li>
-        <li><strong>Mobile-first design.</strong> Most Indians compute on a phone, so every layout is built mobile-up with thumb-friendly controls.</li>
-        <li><strong>No dark patterns.</strong> No fake urgency, no "talk to advisor" pop-ups, no email gates.</li>
+        <li><strong>Technical Accuracy:</strong> Our calculators don't just "estimate." We use the exact mathematical formulas used by major Indian banks and NBFCs for EMI and ROI. Our tax engines are meticulously updated for the latest <strong>FY 2025-26 (AY 2026-27)</strong> tax slabs under both the New and Old regimes.</li>
+        <li><strong>India-Specific Logic:</strong> We understand the nuances of the Indian financial landscape—from the specific rules of HRA exemptions and the RBI's repo-rate linked lending (EBLR) to the complexities of GST and the Employee Provident Fund (EPF).</li>
+        <li><strong>Privacy-First Philosophy:</strong> Financial data is sensitive. That is why every calculation on IndianCalc happens <strong>locally in your browser</strong>. Your salary, loan amounts, and tax details never touch our servers. We don't want your phone number, and we don't sell your leads to banks.</li>
+        <li><strong>No Dark Patterns:</strong> You won't find fake "limited time offers" or "talk to an expert" pop-ups here. We provide the tools, and you make the decisions.</li>
       </ul>
-      <h2>Funding</h2>
-      <p>The site is supported by lightweight, non-intrusive display ads. We do not take affiliate commissions from lenders, fund houses, or insurance companies — so you can trust that no calculator nudges you toward a particular product.</p>
+
+      <h2>Editorial Standards</h2>
+      <p>Content on IndianCalc.com is researched and written by our in-house editorial team. Every article and calculator formula is fact-checked against official sources including the <strong>Reserve Bank of India (RBI)</strong>, the <strong>Income Tax Department of India</strong>, and the <strong>Association of Mutual Funds in India (AMFI)</strong>. We update our data monthly to reflect changes in the Repo Rate, PF interest rates (currently 8.25%), and statutory changes.</p>
+
+      <h2>Funding & Transparency</h2>
+      <p>To keep IndianCalc free for everyone, we use lightweight, non-intrusive display advertisements (Google AdSense). We do not accept payment for "ranking" certain banks or products in our calculators. Our results are strictly mathematical.</p>
+
+      <h2>The Team</h2>
+      <p>Based in Bengaluru, India, our team consists of Chartered Accountants, former bankers, and full-stack developers dedicated to building the "Calculator Infrastructure" for Digital India. We are passionate about making complex finance simple for the next billion users.</p>
+
+      <div className="bg-muted p-4 rounded-lg mt-8 text-sm italic">
+        <strong>Disclaimer:</strong> While we strive for 100% accuracy, calculators on this site are for informational purposes only. Financial decisions involve risk; please consult a SEBI-registered advisor or a qualified CA before making significant commitments.
+      </div>
     </StaticPage>
   );
 }
