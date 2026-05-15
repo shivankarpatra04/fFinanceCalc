@@ -36,6 +36,17 @@ const pages = [
   { url: '/tax-calculators', priority: '0.9', changefreq: 'weekly' },
   { url: '/salary-calculators', priority: '0.9', changefreq: 'weekly' },
   { url: '/property-calculators', priority: '0.9', changefreq: 'weekly' },
+  // BLOG POSTS
+  { url: '/blog/how-emi-is-calculated', priority: '0.8', changefreq: 'monthly' },
+  { url: '/blog/sip-vs-fd-india', priority: '0.8', changefreq: 'monthly' },
+  { url: '/blog/best-tax-saving-options-india', priority: '0.8', changefreq: 'monthly' },
+  { url: '/blog/how-to-improve-credit-score', priority: '0.8', changefreq: 'monthly' },
+  { url: '/blog/home-loan-tips-india', priority: '0.8', changefreq: 'monthly' },
+  { url: '/blog/gst-explained-simply', priority: '0.8', changefreq: 'monthly' },
+  { url: '/blog/personal-loan-guide', priority: '0.8', changefreq: 'monthly' },
+  { url: '/blog/best-sip-for-beginners', priority: '0.8', changefreq: 'monthly' },
+  { url: '/blog/how-to-save-salary-monthly', priority: '0.8', changefreq: 'monthly' },
+  { url: '/blog/rent-vs-buy-in-india', priority: '0.8', changefreq: 'monthly' },
 ];
 
 function generateSiteMap(pages) {
