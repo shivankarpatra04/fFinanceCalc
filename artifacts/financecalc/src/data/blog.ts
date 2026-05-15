@@ -370,11 +370,11 @@ In India, RBI has mandated that there are **zero prepayment penalties** on float
 
 Before falling in love with a flat, ask the builder for the **APF (Approved Project Financial)** number. If major banks have already approved the project, the legal and technical verification for your individual loan will be much faster and safer.
 
-## 9. Don't Ignore the "Pre-EMI"
+Your own house is still under construction.
 
-If you buy an under-construction property, you pay "Pre-EMI" (only interest) until the building is complete. This money does not reduce your principal. It is often better to opt for a "Full EMI" even during construction if your budget allows, so you start chipping away at the debt immediately.
-
-{
+Our [Home Loan Calculator](/home-loan-calculator) and [Loan Eligibility Calculator](/loan-eligibility-calculator) are great companions to this guide when you are ready to take the next step toward homeownership.`,
+  },
+  {
     slug: "gst-explained-simply",
     title: "GST Explained Simply for Indian Consumers (2025)",
     description: "What GST really is, how the four rates work, and how to read a GST invoice without confusion. A guide for every Indian shopper.",
@@ -641,5 +641,51 @@ Saving is a habit, not a math problem. Start small—even 5% is better than 0%. 
     date: "2025-05-28",
     readTime: "12 min",
     category: "Property",
+    content: `In the great debate of "Rent vs Buy" in India, everyone has an opinion. Your parents will tell you to buy as soon as possible ("Rent is money down the drain"), while financial influencers might tell you to rent and invest in SIPs forever. The truth is that neither is universally correct. The right choice depends on your city, your time horizon, and the "Price-to-Rent" ratio. Here is a guide to making the decision with numbers, not emotions.
+
+## The 3% Rule: Rental Yield in India
+
+In many Western countries, rental yields (Annual Rent / Property Price) are 5-7%. In major Indian cities like Mumbai, Bengaluru, or Delhi, rental yields are notoriously low—typically **2% to 3.5%**.
+- This means it is much cheaper to "rent" a premium lifestyle than to "buy" it.
+- A flat worth ₹1.5 Crore in a gated society in Bengaluru might rent for ₹40,000.
+- If you buy that flat, your EMI at 9% interest (after 20% down payment) will be roughly ₹1.08 Lakh.
+- **The Gap:** You are paying ₹68,000 more every month just to own the same four walls.
+
+## When Buying Wins
+
+Buying a house in India makes financial sense if:
+1. **Long Time Horizon:** You plan to live in that house for at least **10-15 years**. The high transaction costs (stamp duty, registration, brokerage) are amortized over a long time.
+2. **Tax Benefits:** You are in the 30% tax bracket and can utilize the full ₹2 Lakh interest deduction (Section 24b).
+3. **Emotional Stability:** You want the freedom to renovate, the security of not being asked to move by a landlord, and a permanent address for your children's school.
+4. **Forced Saving:** A home loan is a forced saving. If you are someone who spends your extra salary instead of investing it, an EMI is better than zero savings.
+
+## When Renting Wins
+
+Renting is the superior financial choice if:
+1. **Career Flexibility:** You are young and might move cities (or countries) for better job opportunities in the next 3-5 years.
+2. **High Price-to-Rent Ratio:** If the house price is more than 30 times the annual rent, renting is almost always better.
+3. **Alternative Investment returns:** If you have the discipline to invest the "Gap amount" (EMI minus Rent) into an Equity SIP. Historically, the Indian stock market (Nifty 50) has outperformed residential real estate in major metros over the last decade.
+4. **Lower Sunk Costs:** You avoid the 7-8% upfront cost of stamp duty and registration, which you never get back.
+
+## Use the Rent vs Buy Framework
+
+To decide, use our [Rent vs Buy Calculator](/rent-vs-buy-calculator). It uses the "Opportunity Cost" method:
+- It assumes you take the down payment amount and invest it in a SIP instead.
+- It compares the final "Net Worth" after 15 years in both scenarios.
+- You will find that in cities with sky-high prices like Mumbai, renting often wins mathematically. In tier-2 cities where property is cheaper, buying can be the winner.
+
+## The "Middle Path"
+
+For many Indians, the best strategy is:
+- **Rent where you live:** To stay close to your office and maintain a high lifestyle at a low cost.
+- **Buy where you can afford:** Investing in a smaller property or land in a developing area or your hometown for long-term appreciation.
+
+## Summary
+
+Don't let "society" or "FOMO" pressure you into a 20-year debt. Buying a home is a lifestyle choice that has a financial cost. Know that cost before you sign. Use our [Stamp Duty Calculator](/stamp-duty-calculator) to see the upfront hit, and our [ROI Calculator](/roi-calculator) to see if the property you are eyeing is actually a good investment.`,
+  },
+];
+
+export function getBlogPost(slug: string): BlogPost | undefined {
   return blogPosts.find((p) => p.slug === slug);
 }
