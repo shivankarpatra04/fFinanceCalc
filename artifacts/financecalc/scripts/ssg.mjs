@@ -11,7 +11,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '..', 'dist');
@@ -25,104 +25,31 @@ if (!fs.existsSync(templatePath)) {
 
 const template = fs.readFileSync(templatePath, 'utf-8');
 
-// ─── Inline blog data (mirrors src/data/blog.ts) ────────────────────────────
-// We duplicate the slug/title/description/category/date here so we have no
-// TypeScript dependency at SSG time. Content is rendered by React client-side
-// after hydration; the meta tags and the visible text snippet below give
-// crawlers enough real content to confirm the page is not empty.
+// ─── Load real blog content from src/data/blog.ts ───────────────────────────
+// blog.ts uses only a narrow slice of TypeScript syntax (an `interface`, a
+// `: BlogPost[]` annotation, and one typed helper). We strip those bits so the
+// remaining source is valid ESM and import it dynamically. This keeps blog.ts
+// as the single source of truth — when an article is edited, the SSG output
+// updates automatically on the next build.
+async function loadBlogPosts() {
+  const tsPath = path.resolve(__dirname, '..', 'src', 'data', 'blog.ts');
+  const tsSource = fs.readFileSync(tsPath, 'utf-8');
+  const jsSource = tsSource
+    .replace(/export\s+interface\s+BlogPost\s*\{[\s\S]*?\n\}\s*/m, '')
+    .replace(/:\s*BlogPost\[\]/g, '')
+    .replace(/export\s+function\s+getBlogPost[\s\S]*$/, '');
+  const tmpFile = path.join(__dirname, '.blog-data.generated.mjs');
+  fs.writeFileSync(tmpFile, jsSource, 'utf-8');
+  try {
+    const mod = await import(pathToFileURL(tmpFile).href + `?t=${Date.now()}`);
+    return mod.blogPosts;
+  } finally {
+    try { fs.unlinkSync(tmpFile); } catch {}
+  }
+}
 
-const blogPosts = [
-  {
-    slug: 'how-emi-is-calculated',
-    title: 'How EMI is Calculated: Formula, Reducing Balance vs Flat Rate & Examples',
-    description: 'Understand the EMI formula used by Indian banks, the difference between reducing and flat rates, and pro-tips to save on interest.',
-    category: 'Loans',
-    date: '2025-05-10',
-    readTime: '12 min',
-    intro: 'Equated Monthly Instalment (EMI) is the fixed amount you pay every month towards a loan. Understanding how this number is calculated puts you in control of your loan. Every regulated lender in India uses the reducing-balance EMI formula: EMI = [P × r × (1+r)^n] / [(1+r)^n − 1]. This guide explains each part of the formula with real examples from Indian banks.',
-  },
-  {
-    slug: 'sip-vs-fd-india',
-    title: 'SIP vs FD in India: A Comprehensive Comparison for 2025',
-    description: 'Which is better for you? We compare Systematic Investment Plans (SIP) and Fixed Deposits (FD) on returns, risk, and taxation in the Indian context.',
-    category: 'Investing',
-    date: '2025-05-12',
-    readTime: '10 min',
-    intro: 'Should you invest in a Systematic Investment Plan (SIP) in mutual funds or a Fixed Deposit (FD) at a bank? This is one of the most common financial dilemmas for Indian middle-class families. FDs offer safety and predictability; SIPs offer higher long-term returns with market risk. The right answer depends on your time horizon, tax bracket, and risk tolerance.',
-  },
-  {
-    slug: 'best-tax-saving-options-india',
-    title: 'Best Tax Saving Options in India 2025: Old vs New Regime',
-    description: 'Navigate Section 80C, 80D, NPS, and Home Loan benefits. A complete guide for Indian salaried employees to save tax legally.',
-    category: 'Tax',
-    date: '2025-05-14',
-    readTime: '11 min',
-    intro: 'With the New Tax Regime becoming the default for FY 2025-26, many salaried Indians are confused about which regime to choose and which deductions they can still claim. Section 80C (up to ₹1.5 Lakh), 80D (health insurance), NPS (80CCD), and Home Loan interest (Section 24b) remain powerful tools under the Old Regime. This guide breaks down every option.',
-  },
-  {
-    slug: 'how-to-improve-credit-score',
-    title: 'How to Improve Your Credit Score in India: A Step-by-Step Guide',
-    description: 'Unlock better loan rates and credit card offers. Learn 7 proven ways to raise your CIBIL score from 600 to 750+.',
-    category: 'Credit',
-    date: '2025-05-15',
-    readTime: '9 min',
-    intro: 'Your CIBIL score is a 3-digit number between 300 and 900 that determines whether you get a loan, at what interest rate, and with what credit limit. A score above 750 is considered excellent by most Indian banks. Here are the seven most effective strategies to improve your credit score in India.',
-  },
-  {
-    slug: 'home-loan-tips-india',
-    title: 'Home Loan Tips for First-Time Buyers in India (2025)',
-    description: "Don't just sign the sanction letter. Learn about RLLR, hidden charges, PMAY, and how to negotiate the best home loan deal.",
-    category: 'Loans',
-    date: '2025-05-18',
-    readTime: '11 min',
-    intro: 'Buying a home is often the most significant financial decision for an Indian family. A 0.5% difference in interest rate on an ₹80 Lakh loan can save you ₹12 Lakh over 20 years. Since 2019, most bank home loans are linked to the RBI\'s Repo Rate (RLLR). Here are 9 essential tips for first-time home buyers in India.',
-  },
-  {
-    slug: 'gst-explained-simply',
-    title: 'GST Explained Simply for Indian Consumers (2025)',
-    description: 'What GST really is, how the four rates work, and how to read a GST invoice without confusion. A guide for every Indian shopper.',
-    category: 'Tax',
-    date: '2025-05-20',
-    readTime: '9 min',
-    intro: 'Goods and Services Tax (GST) replaced a tangle of central excise, service tax, VAT, octroi, and entry taxes in July 2017. India has a four-tier GST structure: 5% for essentials, 12% for processed food, 18% for most services and goods, and 28% for luxury and sin goods. This guide explains everything a consumer needs to know about GST in plain English.',
-  },
-  {
-    slug: 'personal-loan-guide',
-    title: 'Complete Personal Loan Guide for India (2025)',
-    description: 'When to take a personal loan, how to compare lenders, and the traps to avoid. A guide to smart borrowing in India.',
-    category: 'Loans',
-    date: '2025-05-22',
-    readTime: '10 min',
-    intro: 'A personal loan is an unsecured, paperwork-light form of credit. Rates in India typically range from 10.5% to 24% per year. This guide covers when to take a personal loan, how to compare offers from banks and NBFCs, how to avoid common traps like processing fees and insurance bundling, and how to use our EMI calculator to plan your repayment.',
-  },
-  {
-    slug: 'best-sip-for-beginners',
-    title: 'Best SIP Plans for Beginners in India: A 2025 Starter Guide',
-    description: 'How to start your first Mutual Fund SIP. Learn about Index funds, Flexi-caps, and how to build a portfolio for long-term wealth.',
-    category: 'Investing',
-    date: '2025-05-24',
-    readTime: '11 min',
-    intro: 'Starting your first SIP (Systematic Investment Plan) is perhaps the most important financial milestone for a young professional in India. With over 2,500 mutual fund schemes available, the choice can be overwhelming. A great starter portfolio for 2025 has just 2-3 funds: a Nifty 50 Index fund, a Flexi-Cap fund, and an ELSS tax-saver. Always choose Direct Plans to avoid paying 1% annual commission.',
-  },
-  {
-    slug: 'how-to-save-salary-monthly',
-    title: 'How to Save Money from Your Monthly Salary: An Indian Guide',
-    description: 'Tired of having zero balance at month-end? Learn the 50-30-20 rule and practical ways to save 20% of your salary in Indian cities.',
-    category: 'Salary',
-    date: '2025-05-26',
-    readTime: '10 min',
-    intro: 'Many young Indians earning ₹50,000 to ₹1,00,000 find themselves waiting for the next salary with just a few hundred rupees left. The 50-30-20 rule is a simple framework: 50% for Needs (rent, groceries), 30% for Wants (dining out, OTT), 20% for Savings (SIPs, emergency fund). The key is to pay yourself first — transfer 20% to savings the moment your salary arrives.',
-  },
-  {
-    slug: 'rent-vs-buy-in-india',
-    title: 'Rent vs Buy a House in India: The Definitive Guide (2025)',
-    description: 'A clear framework, with real numbers, for deciding whether to keep renting or buy your home in Indian cities like Bengaluru, Mumbai and NCR.',
-    category: 'Property',
-    date: '2025-05-28',
-    readTime: '12 min',
-    intro: 'In major Indian cities like Mumbai, Bengaluru, or Delhi, rental yields are notoriously low — typically 2% to 3.5%. A flat worth ₹1.5 Crore might rent for ₹40,000 but have an EMI of ₹1.08 Lakh — a gap of ₹68,000 per month. Renting and investing the difference in an equity SIP often produces a higher net worth over 15 years than buying. This guide gives you the framework and real numbers to decide.',
-  },
-];
+// ─── Blog posts loaded from src/data/blog.ts at SSG time (see loadBlogPosts) ─
+const blogPosts = await loadBlogPosts();
 
 // ─── Calculator routes (copy index.html for each with updated title/meta) ───
 
@@ -211,17 +138,32 @@ function escHtml(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+// Render a small subset of inline markdown (bold + links) inside an already
+// HTML-escaped string. Order matters: links first so the URL/label aren't
+// affected by the bold pass.
+function renderInline(escaped) {
+  // [label](href) — both sides were HTML-escaped above, so brackets/parens
+  // are still literal characters here.
+  let out = escaped.replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    (_, label, href) => `<a href="${href}" style="color:#2563eb;text-decoration:underline">${label}</a>`,
+  );
+  // **bold**
+  out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  return out;
+}
+
 function mdToHtml(md) {
   if (!md) return '';
   const blocks = md.split('\n\n');
   return blocks.map(b => {
-    if (b.startsWith('## ')) return `<h2 style="font-size:1.5rem;font-weight:700;margin:2rem 0 0.5rem">${escHtml(b.slice(3))}</h2>`;
-    if (b.startsWith('### ')) return `<h3 style="font-size:1.2rem;font-weight:600;margin:1.5rem 0 0.5rem">${escHtml(b.slice(4))}</h3>`;
+    if (b.startsWith('## ')) return `<h2 style="font-size:1.5rem;font-weight:700;margin:2rem 0 0.5rem">${renderInline(escHtml(b.slice(3)))}</h2>`;
+    if (b.startsWith('### ')) return `<h3 style="font-size:1.2rem;font-weight:600;margin:1.5rem 0 0.5rem">${renderInline(escHtml(b.slice(4)))}</h3>`;
     if (b.startsWith('- ')) {
-      const items = b.split('\n').filter(l => l.startsWith('- ')).map(l => `<li>${escHtml(l.slice(2))}</li>`);
+      const items = b.split('\n').filter(l => l.startsWith('- ')).map(l => `<li>${renderInline(escHtml(l.slice(2)))}</li>`);
       return `<ul style="margin:0.5rem 0 0.5rem 1.5rem">${items.join('')}</ul>`;
     }
-    return `<p style="line-height:1.7;margin:0.75rem 0">${escHtml(b)}</p>`;
+    return `<p style="line-height:1.7;margin:0.75rem 0">${renderInline(escHtml(b))}</p>`;
   }).join('');
 }
 
@@ -236,9 +178,11 @@ function writeRoute(relPath, html) {
 
 console.log('\n🔧  IndianCalc SSG — generating static HTML pages...\n');
 
-// 1. Blog posts
+// 1. Blog posts — render the FULL article body into static HTML so crawlers
+// (AdSense, Googlebot without JS, social-card scrapers) see real content.
 for (const post of blogPosts) {
   const canonical = `https://indiancalc.com/blog/${post.slug}`;
+  const articleHtml = mdToHtml(post.content);
   const bodyContent = `
     <nav style="font-size:0.8rem;color:#666;margin-bottom:1rem">
       <a href="/">Home</a> › <a href="/blog">Blog</a> › ${escHtml(post.title)}
@@ -246,8 +190,8 @@ for (const post of blogPosts) {
     <div style="font-size:0.75rem;color:#2563eb;font-weight:600;text-transform:uppercase;letter-spacing:0.05em">${escHtml(post.category)}</div>
     <h1 style="font-size:2rem;font-weight:800;line-height:1.25;margin:0.5rem 0 1rem">${escHtml(post.title)}</h1>
     <p style="color:#555;margin-bottom:1.5rem">Published ${escHtml(post.date)} · ${escHtml(post.readTime)} read</p>
-    <p style="font-size:1.05rem;line-height:1.75;margin-bottom:1rem">${escHtml(post.intro)}</p>
-    <p style="color:#555;font-style:italic">Full article loads below. JavaScript required for complete interactive content.</p>
+    <p style="font-size:1.05rem;line-height:1.75;margin-bottom:1.5rem">${escHtml(post.description)}</p>
+    <article>${articleHtml}</article>
   `;
   const html = buildHtml({ title: `${post.title} | IndianCalc`, description: post.description, canonical, bodyContent });
   writeRoute(`blog/${post.slug}`, html);
