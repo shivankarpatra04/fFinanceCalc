@@ -19,6 +19,37 @@ interface Props {
   children: ReactNode;
 }
 
+// Render a small subset of inline markdown — [label](href) links and **bold** —
+// inside body copy. Internal links (starting with "/") use wouter's <Link> so
+// they are real, crawlable anchors; this is what makes the in-content internal
+// links in our SEO copy actually work (previously they showed as literal text).
+function renderInline(text: string): ReactNode[] {
+  const nodes: ReactNode[] = [];
+  const regex = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let key = 0;
+  while ((m = regex.exec(text)) !== null) {
+    if (m.index > last) nodes.push(text.slice(last, m.index));
+    if (m[1] !== undefined) {
+      const label = m[1];
+      const href = m[2];
+      nodes.push(
+        href.startsWith("/") ? (
+          <Link key={key++} href={href} className="text-primary underline underline-offset-2 hover:no-underline">{label}</Link>
+        ) : (
+          <a key={key++} href={href} className="text-primary underline underline-offset-2 hover:no-underline">{label}</a>
+        ),
+      );
+    } else if (m[3] !== undefined) {
+      nodes.push(<strong key={key++}>{m[3]}</strong>);
+    }
+    last = regex.lastIndex;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return nodes;
+}
+
 function FinancialDisclaimer() {
   return (
     <div style={{
@@ -52,8 +83,9 @@ export function CalculatorLayout({ slug, children }: Props) {
   }, [slug]);
 
   const canonical = `https://indiancalc.com/${slug}`;
-  const title = meta ? `${meta.name} - IndianCalc.com` : "Calculator";
-  const description = meta?.description || "";
+  const title = meta ? meta.seoTitle ?? `${meta.name} - IndianCalc.com` : "Calculator";
+  const description = meta?.metaDescription ?? meta?.description ?? "";
+  const heading = meta ? meta.h1 ?? meta.name : "Calculator";
 
   const jsonLd = meta ? {
     "@context": "https://schema.org",
@@ -115,9 +147,9 @@ export function CalculatorLayout({ slug, children }: Props) {
 
       <div className="mt-4 flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{meta.name}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{heading}</h1>
           <div className="flex items-center gap-2 mt-1 text-xs font-medium text-green-600 dark:text-green-400 uppercase tracking-wider">
-            <span>Last Updated: May 2025</span>
+            <span>Last Updated: May 2026</span>
             <span className="w-1 h-1 rounded-full bg-border" />
             <span>FY 2025-26 Data</span>
           </div>
@@ -166,12 +198,12 @@ export function CalculatorLayout({ slug, children }: Props) {
         <div className="prose prose-sm md:prose-base max-w-none dark:prose-invert text-foreground/85">
           {content.seoContent.split("\n\n").map((para, i) => {
             if (para.startsWith("### ")) {
-              return <h3 key={i} className="text-lg font-bold mt-6 mb-2">{para.replace("### ", "")}</h3>;
+              return <h3 key={i} className="text-lg font-bold mt-6 mb-2">{renderInline(para.replace("### ", ""))}</h3>;
             }
             if (para.startsWith("## ")) {
-              return <h2 key={i} className="text-xl font-bold mt-8 mb-4">{para.replace("## ", "")}</h2>;
+              return <h2 key={i} className="text-xl font-bold mt-8 mb-4">{renderInline(para.replace("## ", ""))}</h2>;
             }
-            return <p key={i} className="mb-4">{para}</p>;
+            return <p key={i} className="mb-4">{renderInline(para)}</p>;
           })}
         </div>
       </section>

@@ -5,6 +5,12 @@ export interface CalculatorMeta {
   category: string; // category slug
   description: string;
   keywords: string[];
+  // Optional SEO overrides. When present they drive the <title>, meta
+  // description and visible <h1> instead of the generic name/description.
+  // Used to target exact high-intent search queries.
+  seoTitle?: string;
+  metaDescription?: string;
+  h1?: string;
 }
 
 export const calculators: CalculatorMeta[] = [
@@ -13,8 +19,11 @@ export const calculators: CalculatorMeta[] = [
     description: "Calculate Equated Monthly Instalment (EMI) for any loan amount, rate and tenure.",
     keywords: ["emi calculator", "loan emi", "monthly instalment", "loan calculator india"] },
   { slug: "home-loan-calculator", name: "Home Loan Calculator", shortName: "Home Loan", category: "loan-calculators",
-    description: "Calculate home loan EMI with full amortisation schedule for Indian banks.",
-    keywords: ["home loan emi", "housing loan calculator", "home loan india"] },
+    description: "Calculate your home loan EMI with a full amortisation schedule for all Indian banks.",
+    seoTitle: "Home Loan Calculator India 2026 – Calculate EMI & Interest",
+    metaDescription: "Free home loan EMI calculator for India 2026. Calculate your house loan EMI, total interest & amortisation schedule for SBI, HDFC, ICICI & all Indian banks.",
+    h1: "Home Loan Calculator India 2026 – Calculate EMI, Interest & Eligibility",
+    keywords: ["home loan calculator", "house loan calculator", "home loan emi calculator india", "home loan interest rates india calculator", "indian bank home loan calculator", "home loan borrowing calculator", "home loan mortgage calculator india", "easy home loan calculator", "calculating home loan"] },
   { slug: "personal-loan-calculator", name: "Personal Loan Calculator", shortName: "Personal Loan", category: "loan-calculators",
     description: "Find the EMI and total interest on any personal loan instantly.",
     keywords: ["personal loan emi", "personal loan calculator india"] },

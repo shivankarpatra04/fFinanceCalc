@@ -1,12 +1,15 @@
 /**
  * SSG (Static Site Generation) for IndianCalc
  *
- * This script runs AFTER `vite build`. It reads the compiled blog data
- * and generates a real `index.html` for every blog post route so that
- * the server returns HTTP 200 with actual HTML content — not just the
- * SPA shell. This is what Google's AdSense crawler requires.
+ * This script runs AFTER `vite build`. It reads the compiled blog data and the
+ * calculator data/content and generates a real `index.html` for every route so
+ * the server returns HTTP 200 with actual, fully-rendered HTML — not just the
+ * SPA shell. This is what Googlebot, the AdSense crawler and social-card
+ * scrapers need in order to index real content and structured data, even when
+ * they do not execute JavaScript.
  *
- * No Puppeteer / Chromium needed.
+ * No Puppeteer / Chromium needed — the TypeScript data files are the single
+ * source of truth and are imported here by stripping their type-only syntax.
  */
 
 import fs from 'fs';
@@ -25,56 +28,63 @@ if (!fs.existsSync(templatePath)) {
 
 const template = fs.readFileSync(templatePath, 'utf-8');
 
-// ─── Load real blog content from src/data/blog.ts ───────────────────────────
-// blog.ts uses only a narrow slice of TypeScript syntax (an `interface`, a
-// `: BlogPost[]` annotation, and one typed helper). We strip those bits so the
-// remaining source is valid ESM and import it dynamically. This keeps blog.ts
-// as the single source of truth — when an article is edited, the SSG output
-// updates automatically on the next build.
-async function loadBlogPosts() {
-  const tsPath = path.resolve(__dirname, '..', 'src', 'data', 'blog.ts');
-  const tsSource = fs.readFileSync(tsPath, 'utf-8');
-  const jsSource = tsSource
-    .replace(/export\s+interface\s+BlogPost\s*\{[\s\S]*?\n\}\s*/m, '')
-    .replace(/:\s*BlogPost\[\]/g, '')
-    .replace(/export\s+function\s+getBlogPost[\s\S]*$/, '');
-  const tmpFile = path.join(__dirname, '.blog-data.generated.mjs');
-  fs.writeFileSync(tmpFile, jsSource, 'utf-8');
+// ─── Load TypeScript data modules by stripping type-only syntax ──────────────
+// These files use only a narrow slice of TS (interfaces, a couple of type
+// annotations and helper functions). We strip those bits so the remaining
+// source is valid ESM and import it dynamically. This keeps the .ts files as
+// the single source of truth — editing content updates the SSG automatically.
+async function importStripped(relPath, transforms) {
+  const tsPath = path.resolve(__dirname, '..', relPath);
+  let src = fs.readFileSync(tsPath, 'utf-8');
+  for (const t of transforms) src = src.replace(t[0], t[1]);
+  const tmpFile = path.join(__dirname, `.${path.basename(relPath)}.generated.mjs`);
+  fs.writeFileSync(tmpFile, src, 'utf-8');
   try {
-    const mod = await import(pathToFileURL(tmpFile).href + `?t=${Date.now()}`);
-    return mod.blogPosts;
+    return await import(pathToFileURL(tmpFile).href + `?t=${Date.now()}`);
   } finally {
     try { fs.unlinkSync(tmpFile); } catch {}
   }
 }
 
-// ─── Blog posts loaded from src/data/blog.ts at SSG time (see loadBlogPosts) ─
+async function loadBlogPosts() {
+  const mod = await importStripped('src/data/blog.ts', [
+    [/export\s+interface\s+BlogPost\s*\{[\s\S]*?\n\}\s*/m, ''],
+    [/:\s*BlogPost\[\]/g, ''],
+    [/export\s+function\s+getBlogPost[\s\S]*$/, ''],
+  ]);
+  return mod.blogPosts;
+}
+
+async function loadCalculators() {
+  const mod = await importStripped('src/data/calculators.ts', [
+    [/export\s+interface\s+CalculatorMeta\s*\{[\s\S]*?\n\}/, ''],
+    [/:\s*CalculatorMeta\[\]/, ''],
+    [/export\s+function[\s\S]*$/, ''], // drop helper functions + popularSlugs (unused here)
+  ]);
+  return mod.calculators;
+}
+
+async function loadCalculatorContent() {
+  const mod = await importStripped('src/data/calculator-content.ts', [
+    [/export\s+interface\s+FAQItem\s*\{[\s\S]*?\n\}/, ''],
+    [/export\s+interface\s+CalculatorContent\s*\{[\s\S]*?\n\}/, ''],
+    [/:\s*Record<[^=]*?>\s*=/, ' ='],
+    [/export\s+function[\s\S]*$/, ''],
+  ]);
+  return mod.calculatorContent;
+}
+
 const blogPosts = await loadBlogPosts();
+const calculators = await loadCalculators();
+const calculatorContent = await loadCalculatorContent();
 
-// ─── Calculator routes (copy index.html for each with updated title/meta) ───
-
-const calculators = [
-  { slug: 'emi-calculator', name: 'EMI Calculator', description: 'Calculate Equated Monthly Instalment (EMI) for any loan amount, rate and tenure.' },
-  { slug: 'home-loan-calculator', name: 'Home Loan Calculator', description: 'Calculate home loan EMI with full amortisation schedule for Indian banks.' },
-  { slug: 'personal-loan-calculator', name: 'Personal Loan Calculator', description: 'Find the EMI and total interest on any personal loan instantly.' },
-  { slug: 'car-loan-calculator', name: 'Car Loan Calculator', description: 'Calculate car loan EMI for new and used vehicle financing in India.' },
-  { slug: 'loan-eligibility-calculator', name: 'Loan Eligibility Calculator', description: 'Find out the maximum loan amount you can borrow based on your income.' },
-  { slug: 'sip-calculator', name: 'SIP Calculator', description: 'Calculate the future value of your monthly SIP in mutual funds.' },
-  { slug: 'fd-calculator', name: 'FD Calculator', description: 'Calculate maturity amount on your fixed deposit with quarterly compounding.' },
-  { slug: 'rd-calculator', name: 'RD Calculator', description: 'Calculate maturity value of a recurring deposit at any bank or post office.' },
-  { slug: 'cagr-calculator', name: 'CAGR Calculator', description: 'Find the compound annual growth rate of any investment over time.' },
-  { slug: 'mutual-fund-calculator', name: 'Mutual Fund Returns Calculator', description: 'Calculate future value of a lumpsum mutual fund investment.' },
-  { slug: 'gst-calculator', name: 'GST Calculator', description: 'Add or remove GST from any amount at 5%, 12%, 18% or 28% rates.' },
-  { slug: 'income-tax-calculator-india', name: 'Income Tax Calculator India', description: 'Calculate income tax under new and old regime for FY 2025-26.' },
-  { slug: 'hra-calculator', name: 'HRA Calculator', description: 'Calculate maximum HRA exemption you can claim under section 10(13A).' },
-  { slug: 'tds-calculator', name: 'TDS Calculator', description: 'Estimate the monthly TDS your employer deducts from your salary.' },
-  { slug: 'in-hand-salary-calculator', name: 'In-Hand Salary Calculator', description: 'Convert your CTC to monthly take-home salary after PF, PT and tax.' },
-  { slug: 'salary-hike-calculator', name: 'Salary Hike Calculator', description: 'Calculate your new salary after a hike percentage or back-calculate the percentage.' },
-  { slug: 'pf-calculator', name: 'PF / EPF Calculator', description: 'Project your EPF retirement corpus at the current 8.25% interest rate.' },
-  { slug: 'rent-vs-buy-calculator', name: 'Rent vs Buy Calculator', description: 'Compare the long-term cost of renting versus buying a home in India.' },
-  { slug: 'stamp-duty-calculator', name: 'Stamp Duty Calculator', description: 'Calculate stamp duty and registration charges for any Indian state.' },
-  { slug: 'roi-calculator', name: 'ROI Calculator', description: 'Calculate absolute and annualised return on investment.' },
-];
+const categoryNames = {
+  'loan-calculators': 'Loan Calculators',
+  'investment-calculators': 'Investment Calculators',
+  'tax-calculators': 'Tax Calculators',
+  'salary-calculators': 'Salary Calculators',
+  'property-calculators': 'Property Calculators',
+};
 
 const staticPages = [
   { slug: 'about', title: 'About Us | IndianCalc', description: 'Learn about IndianCalc.com - free, accurate, India-specific finance calculators.' },
@@ -90,19 +100,14 @@ const staticPages = [
   { slug: 'property-calculators', title: 'Property Calculators - Free Online Tools | IndianCalc', description: 'Rent vs buy, stamp duty and ROI calculators for Indian real estate.' },
 ];
 
-// ─── Helper: inject page-specific meta into the template ────────────────────
+// ─── Helper: inject page-specific meta + JSON-LD into the template ──────────
 
 function buildHtml(opts) {
-  const { title, description, canonical, bodyContent = '' } = opts;
+  const { title, description, canonical, bodyContent = '', headExtra = '' } = opts;
   let html = template;
 
-  // Replace <title>
-  html = html.replace(
-    /<title>[^<]*<\/title>/,
-    `<title>${escHtml(title)}</title>`
-  );
+  html = html.replace(/<title>[^<]*<\/title>/, `<title>${escHtml(title)}</title>`);
 
-  // Inject meta description (add if not present, replace if present)
   const descTag = `<meta name="description" content="${escHtml(description)}" />`;
   if (html.includes('<meta name="description"')) {
     html = html.replace(/<meta name="description"[^>]*>/, descTag);
@@ -110,7 +115,6 @@ function buildHtml(opts) {
     html = html.replace('</head>', `  ${descTag}\n  </head>`);
   }
 
-  // Inject canonical
   const canonicalTag = `<link rel="canonical" href="${canonical}" />`;
   if (html.includes('<link rel="canonical"')) {
     html = html.replace(/<link rel="canonical"[^>]*>/, canonicalTag);
@@ -118,12 +122,14 @@ function buildHtml(opts) {
     html = html.replace('</head>', `  ${canonicalTag}\n  </head>`);
   }
 
-  // Inject OG tags
   html = html.replace(/(<meta property="og:title"[^>]*>)/, `<meta property="og:title" content="${escHtml(title)}" />`);
   html = html.replace(/(<meta property="og:description"[^>]*>)/, `<meta property="og:description" content="${escHtml(description)}" />`);
   html = html.replace(/(<meta property="og:url"[^>]*>)/, `<meta property="og:url" content="${canonical}" />`);
 
-  // Inject noscript / pre-render content inside #root for crawlers that don't run JS
+  if (headExtra) {
+    html = html.replace('</head>', `  ${headExtra}\n  </head>`);
+  }
+
   if (bodyContent) {
     html = html.replace(
       '<div id="root"></div>',
@@ -135,20 +141,17 @@ function buildHtml(opts) {
 }
 
 function escHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 // Render a small subset of inline markdown (bold + links) inside an already
 // HTML-escaped string. Order matters: links first so the URL/label aren't
 // affected by the bold pass.
 function renderInline(escaped) {
-  // [label](href) — both sides were HTML-escaped above, so brackets/parens
-  // are still literal characters here.
   let out = escaped.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
     (_, label, href) => `<a href="${href}" style="color:#2563eb;text-decoration:underline">${label}</a>`,
   );
-  // **bold**
   out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   return out;
 }
@@ -178,8 +181,7 @@ function writeRoute(relPath, html) {
 
 console.log('\n🔧  IndianCalc SSG — generating static HTML pages...\n');
 
-// 1. Blog posts — render the FULL article body into static HTML so crawlers
-// (AdSense, Googlebot without JS, social-card scrapers) see real content.
+// 1. Blog posts — render the FULL article body into static HTML.
 for (const post of blogPosts) {
   const canonical = `https://indiancalc.com/blog/${post.slug}`;
   const articleHtml = mdToHtml(post.content);
@@ -197,17 +199,100 @@ for (const post of blogPosts) {
   writeRoute(`blog/${post.slug}`, html);
 }
 
-// 2. Calculators
-for (const calc of calculators) {
-  const canonical = `https://indiancalc.com/${calc.slug}`;
+// 2. Calculators — render full content (intro, formula, worked examples, the
+// long-form SEO section, FAQ) plus WebApplication / BreadcrumbList / FAQPage
+// JSON-LD so crawlers see rich content and structured data without running JS.
+for (const meta of calculators) {
+  const slug = meta.slug;
+  const content = calculatorContent[slug];
+  const canonical = `https://indiancalc.com/${slug}`;
+  const title = meta.seoTitle ?? `${meta.name} - IndianCalc.com`;
+  const description = meta.metaDescription ?? meta.description;
+  const h1 = meta.h1 ?? meta.name;
+  const catName = categoryNames[meta.category] || 'Calculators';
+
+  const faqHtml = content
+    ? content.faqs.map(f =>
+        `<div style="margin:1rem 0"><h3 style="font-size:1.1rem;font-weight:600;margin:0 0 0.25rem">${escHtml(f.q)}</h3><p style="line-height:1.7;margin:0">${renderInline(escHtml(f.a))}</p></div>`
+      ).join('')
+    : '';
+
+  const relatedHtml = content && content.related.length
+    ? `<h2 style="font-size:1.5rem;font-weight:700;margin:2rem 0 0.5rem">Related Calculators</h2><ul style="margin:0.5rem 0 0.5rem 1.5rem">${
+        content.related.map(rs => {
+          const r = calculators.find(c => c.slug === rs);
+          return r ? `<li><a href="/${rs}" style="color:#2563eb;text-decoration:underline">${escHtml(r.name)}</a></li>` : '';
+        }).join('')
+      }</ul>`
+    : '';
+
   const bodyContent = `
-    <nav style="font-size:0.8rem;color:#666;margin-bottom:1rem"><a href="/">Home</a> › ${escHtml(calc.name)}</nav>
-    <h1 style="font-size:2rem;font-weight:800;margin:0.5rem 0 1rem">${escHtml(calc.name)}</h1>
-    <p style="font-size:1.05rem;line-height:1.75">${escHtml(calc.description)}</p>
-    <p style="color:#555;font-style:italic;margin-top:1rem">Interactive calculator loads below. JavaScript required.</p>
+    <nav style="font-size:0.8rem;color:#666;margin-bottom:1rem"><a href="/">Home</a> › <a href="/${meta.category}">${escHtml(catName)}</a> › ${escHtml(meta.name)}</nav>
+    <h1 style="font-size:2rem;font-weight:800;margin:0.5rem 0 0.5rem">${escHtml(h1)}</h1>
+    <p style="font-size:0.8rem;color:#16a34a;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 1rem">Last Updated: May 2026 · FY 2025-26 Data</p>
+    <p style="font-size:1.05rem;line-height:1.75">${escHtml(meta.description)}</p>
+    <p style="color:#555;font-style:italic;margin-top:1rem">Interactive calculator loads below. JavaScript required for live calculations.</p>
+    ${content ? `
+    <h2 style="font-size:1.5rem;font-weight:700;margin:2rem 0 0.5rem">Formula</h2>
+    ${mdToHtml(content.formula)}
+    <h2 style="font-size:1.5rem;font-weight:700;margin:2rem 0 0.5rem">Worked Examples</h2>
+    ${mdToHtml(content.example)}
+    <h2 style="font-size:1.5rem;font-weight:700;margin:2rem 0 0.5rem">About the ${escHtml(meta.name)}</h2>
+    ${mdToHtml(content.seoContent)}
+    <h2 style="font-size:1.5rem;font-weight:700;margin:2rem 0 0.5rem">Frequently Asked Questions</h2>
+    ${faqHtml}
+    ${relatedHtml}
+    ` : ''}
   `;
-  const html = buildHtml({ title: `${calc.name} - IndianCalc.com`, description: calc.description, canonical, bodyContent });
-  writeRoute(calc.slug, html);
+
+  const graph = [
+    {
+      '@type': 'Organization',
+      '@id': 'https://indiancalc.com/#organization',
+      name: 'IndianCalc',
+      url: 'https://indiancalc.com',
+      logo: 'https://indiancalc.com/logo.png',
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://indiancalc.com/#website',
+      url: 'https://indiancalc.com',
+      name: 'IndianCalc',
+      publisher: { '@id': 'https://indiancalc.com/#organization' },
+    },
+    {
+      '@type': 'WebApplication',
+      name: h1,
+      applicationCategory: 'FinanceApplication',
+      operatingSystem: 'Any',
+      url: canonical,
+      description,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://indiancalc.com/' },
+        { '@type': 'ListItem', position: 2, name: catName, item: `https://indiancalc.com/${meta.category}` },
+        { '@type': 'ListItem', position: 3, name: meta.name },
+      ],
+    },
+  ];
+  if (content) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: content.faqs.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    });
+  }
+  const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
+  const headExtra = `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>`;
+
+  const html = buildHtml({ title, description, canonical, bodyContent, headExtra });
+  writeRoute(slug, html);
 }
 
 // 3. Static pages
