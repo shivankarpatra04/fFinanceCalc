@@ -170,11 +170,35 @@ function mdToHtml(md) {
   }).join('');
 }
 
+// ─── Sanitizer: guarantee NO localhost (or stale snapshot ad junk) survives ──
+// A clean `vite build` template contains no localhost. But if a snapshot tool
+// (react-snap / puppeteer / vite-plugin-prerender) ever rendered the page on a
+// local dev server, it bakes the dev origin (e.g. http://localhost:3001) into
+// the AdSense / DoubleClick request URLs (url=...localhost%3A3001...). Googlebot
+// then sees a production page advertising a localhost URL — an AdSense red flag.
+// We run every generated page through this pass so the production origin is the
+// ONLY origin that can appear, regardless of how the template was produced.
+const PROD_ORIGIN = 'https://indiancalc.com';
+const PROD_HOST = 'indiancalc.com';
+function sanitize(html) {
+  return html
+    // URL-encoded "localhost:3001" (as it appears inside AdSense iframe `url=` params)
+    .replace(/localhost%3A\d+/gi, PROD_HOST)
+    // "http://localhost:3001" / "https://localhost" → production origin
+    .replace(/https?:\/\/localhost(?::\d+)?/gi, PROD_ORIGIN)
+    // any remaining bare "localhost" or "localhost:PORT"
+    .replace(/localhost(?::\d+)?/gi, PROD_HOST)
+    // strip stale pre-rendered ad artifacts a snapshot may have injected
+    // (the legitimate async adsbygoogle.js loader has no localhost and is kept)
+    .replace(/<script[^>]*\bshow_ads_impl[^>]*><\/script>/gi, '')
+    .replace(/<meta[^>]*http-equiv=["']origin-trial["'][^>]*>/gi, '');
+}
+
 function writeRoute(relPath, html) {
   const dir = path.join(distDir, relPath);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf-8');
-  console.log(`  ✅  /${relPath}/index.html`);
+  fs.writeFileSync(path.join(dir, 'index.html'), sanitize(html), 'utf-8');
+  console.log(`  ✅  /${relPath || ''}/index.html`);
 }
 
 // ─── Main ────────────────────────────────────────────────────────────────────
@@ -300,6 +324,56 @@ for (const page of staticPages) {
   const canonical = `https://indiancalc.com/${page.slug}`;
   const html = buildHtml({ title: page.title, description: page.description, canonical });
   writeRoute(page.slug, html);
+}
+
+// 4. Homepage — the SPA shell left `<div id="root"></div>` empty, so crawlers
+// (and the AdSense reviewer) saw a blank page. Inject real, crawlable content:
+// a heading, an intro describing IndianCalc, and the full, linked list of every
+// calculator grouped by category, plus WebSite + ItemList structured data.
+{
+  const canonical = 'https://indiancalc.com/';
+  const byCat = {};
+  for (const c of calculators) (byCat[c.category] ||= []).push(c);
+  const catOrder = ['loan-calculators', 'investment-calculators', 'tax-calculators', 'salary-calculators', 'property-calculators'];
+
+  let listHtml = '';
+  for (const cat of catOrder) {
+    const items = byCat[cat] || [];
+    if (!items.length) continue;
+    listHtml += `<h2 style="font-size:1.4rem;font-weight:700;margin:1.75rem 0 0.5rem"><a href="/${cat}" style="color:#111;text-decoration:none">${escHtml(categoryNames[cat] || cat)}</a></h2>`;
+    listHtml += '<ul style="margin:0.25rem 0 0.5rem 1.5rem;line-height:1.9">';
+    for (const c of items) {
+      listHtml += `<li><a href="/${c.slug}" style="color:#2563eb;text-decoration:underline">${escHtml(c.name)}</a> — ${escHtml(c.description)}</li>`;
+    }
+    listHtml += '</ul>';
+  }
+
+  const bodyContent = `
+    <h1 style="font-size:2.1rem;font-weight:800;margin:0.5rem 0 1rem">IndianCalc — Free Indian Finance Calculators (EMI, SIP, Tax &amp; More)</h1>
+    <p style="font-size:1.05rem;line-height:1.75;margin:0 0 1rem">IndianCalc.com is a free collection of ${calculators.length} accurate, India-specific finance calculators. Instantly calculate your loan EMI, SIP and mutual fund returns, income tax under the new and old regime, GST, HRA, in-hand salary from CTC, stamp duty and more — no sign-up, no app, and tuned for FY 2025-26.</p>
+    <p style="line-height:1.75;margin:0 0 1rem">Every calculator uses the same formulas Indian banks, the Income Tax Department and the RBI rely on, and each comes with a worked example and an FAQ so you understand the maths behind the result. Choose a calculator below to get started.</p>
+    ${listHtml}
+    <h2 style="font-size:1.4rem;font-weight:700;margin:1.75rem 0 0.5rem">Why use IndianCalc?</h2>
+    <p style="line-height:1.75;margin:0 0 1rem">Built for India: rupee amounts, lakh and crore formatting, Indian tax slabs and bank conventions. It is 100% free, works on any device, and your numbers never leave your browser. For practical money guides, read our <a href="/blog" style="color:#2563eb;text-decoration:underline">finance blog</a>.</p>
+  `;
+
+  const homeLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'Organization', '@id': 'https://indiancalc.com/#organization', name: 'IndianCalc', url: 'https://indiancalc.com', logo: 'https://indiancalc.com/logo.png' },
+      {
+        '@type': 'WebSite', '@id': 'https://indiancalc.com/#website', url: 'https://indiancalc.com', name: 'IndianCalc',
+        publisher: { '@id': 'https://indiancalc.com/#organization' },
+        potentialAction: { '@type': 'SearchAction', target: 'https://indiancalc.com/?q={search_term_string}', 'query-input': 'required name=search_term_string' },
+      },
+      { '@type': 'ItemList', itemListElement: calculators.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, url: `https://indiancalc.com/${c.slug}` })) },
+    ],
+  };
+  const headExtra = `<script type="application/ld+json">${JSON.stringify(homeLd).replace(/</g, '\\u003c')}</script>`;
+  const title = 'IndianCalc.com - Free Indian Finance Calculators (EMI, SIP, Tax)';
+  const description = `Free Indian finance calculators — EMI, SIP, income tax, GST, HRA, in-hand salary, FD, stamp duty and more. ${calculators.length} accurate, instant tools for FY 2025-26. No sign-up.`;
+  const html = buildHtml({ title, description, canonical, bodyContent, headExtra });
+  writeRoute('', html);
 }
 
 console.log('\n✅  SSG complete — all routes now return HTTP 200 with real HTML.\n');
