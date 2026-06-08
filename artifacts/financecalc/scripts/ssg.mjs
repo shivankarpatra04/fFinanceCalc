@@ -332,29 +332,90 @@ for (const page of staticPages) {
 // calculator grouped by category, plus WebSite + ItemList structured data.
 {
   const canonical = 'https://indiancalc.com/';
-  const byCat = {};
-  for (const c of calculators) (byCat[c.category] ||= []).push(c);
-  const catOrder = ['loan-calculators', 'investment-calculators', 'tax-calculators', 'salary-calculators', 'property-calculators'];
+  // Curated homepage sections (exact content per spec). Slugs validated against
+  // src/data/calculators.ts — note "PF/EPF Calculator" maps to the real
+  // /pf-calculator route (there is no /epf-calculator).
+  const homeCategories = [
+    { name: 'Loan Calculators', items: [
+      ['EMI Calculator', '/emi-calculator'],
+      ['Home Loan Calculator', '/home-loan-calculator'],
+      ['Personal Loan Calculator', '/personal-loan-calculator'],
+      ['Car Loan Calculator', '/car-loan-calculator'],
+      ['Loan Eligibility Calculator', '/loan-eligibility-calculator'],
+    ] },
+    { name: 'Investment Calculators', items: [
+      ['SIP Calculator', '/sip-calculator'],
+      ['FD Calculator', '/fd-calculator'],
+      ['RD Calculator', '/rd-calculator'],
+      ['CAGR Calculator', '/cagr-calculator'],
+      ['Mutual Fund Calculator', '/mutual-fund-calculator'],
+    ] },
+    { name: 'Tax Calculators', items: [
+      ['Income Tax Calculator', '/income-tax-calculator-india'],
+      ['GST Calculator', '/gst-calculator'],
+      ['HRA Calculator', '/hra-calculator'],
+      ['TDS Calculator', '/tds-calculator'],
+    ] },
+    { name: 'Salary Calculators', items: [
+      ['In-Hand Salary Calculator', '/in-hand-salary-calculator'],
+      ['Salary Hike Calculator', '/salary-hike-calculator'],
+      ['PF/EPF Calculator', '/pf-calculator'],
+    ] },
+    { name: 'Property Calculators', items: [
+      ['Rent vs Buy Calculator', '/rent-vs-buy-calculator'],
+      ['Stamp Duty Calculator', '/stamp-duty-calculator'],
+    ] },
+  ];
 
-  let listHtml = '';
-  for (const cat of catOrder) {
-    const items = byCat[cat] || [];
-    if (!items.length) continue;
-    listHtml += `<h2 style="font-size:1.4rem;font-weight:700;margin:1.75rem 0 0.5rem"><a href="/${cat}" style="color:#111;text-decoration:none">${escHtml(categoryNames[cat] || cat)}</a></h2>`;
-    listHtml += '<ul style="margin:0.25rem 0 0.5rem 1.5rem;line-height:1.9">';
-    for (const c of items) {
-      listHtml += `<li><a href="/${c.slug}" style="color:#2563eb;text-decoration:underline">${escHtml(c.name)}</a> — ${escHtml(c.description)}</li>`;
+  const homeBlog = [
+    ['How EMI is Calculated', '/blog/how-emi-is-calculated'],
+    ['SIP vs FD in India', '/blog/sip-vs-fd-india'],
+    ['Best Tax Saving Options 2025', '/blog/best-tax-saving-options-india'],
+    ['How to Improve Your CIBIL Score', '/blog/how-to-improve-credit-score'],
+    ['Home Loan Tips for First-Time Buyers', '/blog/home-loan-tips-india'],
+  ];
+
+  const linkStyle = 'color:#2563eb;text-decoration:none';
+  const h2Style = 'font-size:1.5rem;font-weight:700;margin:2rem 0 0.75rem;color:#0f172a';
+  const h3Style = 'font-size:1.15rem;font-weight:700;margin:1.25rem 0 0.4rem;color:#1e40af';
+  const ulStyle = 'margin:0 0 0.5rem 1.5rem;line-height:1.9';
+
+  let calcListHtml = '';
+  for (const cat of homeCategories) {
+    calcListHtml += `<h3 style="${h3Style}">${escHtml(cat.name)}</h3><ul style="${ulStyle}">`;
+    for (const [name, href] of cat.items) {
+      calcListHtml += `<li><a href="${href}" style="${linkStyle}">${escHtml(name)}</a></li>`;
     }
-    listHtml += '</ul>';
+    calcListHtml += '</ul>';
   }
 
+  let blogListHtml = `<ul style="${ulStyle}">`;
+  for (const [name, href] of homeBlog) {
+    blogListHtml += `<li><a href="${href}" style="${linkStyle}">${escHtml(name)}</a></li>`;
+  }
+  blogListHtml += '</ul>';
+
   const bodyContent = `
-    <h1 style="font-size:2.1rem;font-weight:800;margin:0.5rem 0 1rem">IndianCalc — Free Indian Finance Calculators (EMI, SIP, Tax &amp; More)</h1>
-    <p style="font-size:1.05rem;line-height:1.75;margin:0 0 1rem">IndianCalc.com is a free collection of ${calculators.length} accurate, India-specific finance calculators. Instantly calculate your loan EMI, SIP and mutual fund returns, income tax under the new and old regime, GST, HRA, in-hand salary from CTC, stamp duty and more — no sign-up, no app, and tuned for FY 2025-26.</p>
-    <p style="line-height:1.75;margin:0 0 1rem">Every calculator uses the same formulas Indian banks, the Income Tax Department and the RBI rely on, and each comes with a worked example and an FAQ so you understand the maths behind the result. Choose a calculator below to get started.</p>
-    ${listHtml}
-    <h2 style="font-size:1.4rem;font-weight:700;margin:1.75rem 0 0.5rem">Why use IndianCalc?</h2>
-    <p style="line-height:1.75;margin:0 0 1rem">Built for India: rupee amounts, lakh and crore formatting, Indian tax slabs and bank conventions. It is 100% free, works on any device, and your numbers never leave your browser. For practical money guides, read our <a href="/blog" style="color:#2563eb;text-decoration:underline">finance blog</a>.</p>
+    <section>
+      <h1 style="font-size:2.1rem;font-weight:800;line-height:1.2;margin:0.5rem 0 1rem;color:#0f172a">Free Indian Finance Calculators — EMI, SIP, Tax &amp; More</h1>
+      <p style="font-size:1.1rem;line-height:1.75;margin:0 0 1rem;color:#334155">IndianCalc offers 21 free, accurate finance calculators built specifically for Indian users. No login, no ads, instant results. Calculate EMI, SIP returns, income tax, HRA, in-hand salary, GST and more.</p>
+    </section>
+    <section>
+      <h2 style="${h2Style}">Our Calculators</h2>
+      ${calcListHtml}
+    </section>
+    <section>
+      <h2 style="${h2Style}">Why Use IndianCalc?</h2>
+      <p style="line-height:1.75;margin:0 0 1rem;color:#334155">All calculators use India-specific formulas — RBI-compliant EMI formula, FY 2025-26 income tax slabs, current GST rates, and EPF rules. Results are instant, accurate, and completely free. No registration required.</p>
+    </section>
+    <section>
+      <h2 style="${h2Style}">Finance Guides for Indian Users</h2>
+      ${blogListHtml}
+    </section>
+    <footer style="margin-top:2.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;font-size:0.85rem;color:#64748b">
+      <p style="margin:0 0 0.25rem">Last updated: May 2026 | FY 2025-26 data</p>
+      <p style="margin:0">Not financial advice. For informational use only.</p>
+    </footer>
   `;
 
   const homeLd = {
